@@ -21,14 +21,14 @@ namespace CoreWebApp.Controllers
 
         // GET: api/<LearningDataController>
         [HttpGet]
-        public ActionResult<IEnumerable<LearningDataDto>> Get()
+        public IActionResult Get()
         {
             throw new NotImplementedException();
         }
 
         // GET api/<LearningDataController>/5
         [HttpGet("{id}")]
-        public ActionResult<LearningDataDto> Get(int id)
+        public IActionResult Get(int id)
         {
             var learningData = _dataStorage.Retrieve(id);
             if(learningData == null)
@@ -40,21 +40,21 @@ namespace CoreWebApp.Controllers
 
         // POST api/<LearningDataController>
         [HttpPost]
-        public ActionResult Post([FromBody] LearningDataDto value)
+        public IActionResult Post([FromBody] LearningDataDto value)
         {
             throw new NotImplementedException();
         }
 
         // PUT api/<LearningDataController>/5
         [HttpPut("{id}")]
-        public ActionResult Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] string value)
         {
             throw new NotImplementedException();
         }
 
         // DELETE api/<LearningDataController>/5
         [HttpDelete("{id}")]
-        public ActionResult Delete(int id)
+        public IActionResult Delete(int id)
         {
             throw new NotImplementedException();
         }

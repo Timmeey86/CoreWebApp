@@ -47,11 +47,14 @@ namespace CoreWebApp.Tests
             var sut = new LearningDataController(dataStorageMock.Object);
 
             // Act
-            var actualLearningDataResult = sut.Get(expectedLearningData.Id);
+            var result = sut.Get(expectedLearningData.Id);
+            var okResult = result as OkObjectResult;
 
             // Assert
-            Assert.IsType<OkResult>(actualLearningDataResult.Result);
-            Assert.Equal(expectedLearningData.Id, actualLearningDataResult.Value.Id);
+            Assert.NotNull(okResult);
+            var actualLearningData = okResult.Value as LearningDataDto;
+            Assert.NotNull(actualLearningData);
+            Assert.Equal(expectedLearningData.Id, actualLearningData.Id);
         }
 
         [Fact]
@@ -66,10 +69,11 @@ namespace CoreWebApp.Tests
             var sut = new LearningDataController(dataStorageMock.Object);
 
             // Act
-            var actualActionResult = sut.Get(invalidId);
+            var result = sut.Get(invalidId);
+            var notFoundResult = result as NotFoundResult;
 
             // Assert
-            Assert.IsType<NotFoundResult>(actualActionResult.Result);
+            Assert.NotNull(notFoundResult);
         }
     }
 }
