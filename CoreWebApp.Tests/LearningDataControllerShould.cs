@@ -50,12 +50,12 @@ namespace CoreWebApp.Tests
             var actualLearningDataResult = sut.Get(expectedLearningData.Id);
 
             // Assert
-            Assert.IsNotType<NotFoundResult>(actualLearningDataResult.Result);
+            Assert.IsType<OkResult>(actualLearningDataResult.Result);
             Assert.Equal(expectedLearningData.Id, actualLearningDataResult.Value.Id);
         }
 
         [Fact]
-        public void ReturnsNotFound_WhenDataStorageThrowsArgumentExceptionOnRetrieve()
+        public void ReturnNotFound_WhenDataStorageThrowsArgumentExceptionOnRetrieve()
         {
             // Arrange
             var invalidId = 5000;

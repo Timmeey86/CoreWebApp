@@ -1,3 +1,5 @@
+using CoreWebApp.Dummy;
+using CoreWebApp.LogicLayer.Storage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +21,8 @@ namespace CoreWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+
+            services.AddSingleton<ILearningDataRepo, DummyLearningDataRepo>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

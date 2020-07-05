@@ -35,7 +35,7 @@ namespace CoreWebApp.Controllers
             {
                 return NotFound();
             }
-            return _dataStorage.Retrieve(id);
+            return Ok(_dataStorage.Retrieve(id));
         }
 
         // POST api/<LearningDataController>
