@@ -24,7 +24,7 @@ steps:
 - task: SonarCloudPrepare@1
   displayName: 'Prepare analysis configuration'
   inputs:
-    SonarCloud: 'https://sonarcloud.io'
+    SonarCloud: 'Sonarcloud'
     organization: 'timmeey86-github'
     scannerMode: 'MSBuild'
     projectKey: 'Timmeey86_CoreWebApp'
