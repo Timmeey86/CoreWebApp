@@ -23,7 +23,7 @@ namespace CoreWebApp.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            throw new NotImplementedException();
+            return Ok(_dataStorage.RetrieveAll());
         }
 
         // GET api/<LearningDataController>/5
