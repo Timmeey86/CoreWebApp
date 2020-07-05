@@ -9,4 +9,8 @@
     <AdditionalFiles Include="..\.sonarlint\timmeey86_corewebapp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.ComponentModel.Annotations" Version="4.7.0" />
+  </ItemGroup>
+
 </Project>

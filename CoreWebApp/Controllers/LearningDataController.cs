@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using CoreWebApp.LogicLayer.Dtos;
+﻿using CoreWebApp.LogicLayer.Dtos;
 using CoreWebApp.LogicLayer.Storage;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,51 +10,76 @@ namespace CoreWebApp.Controllers
     [ApiController]
     public class LearningDataController : ControllerBase
     {
-        private readonly ILearningDataRepo _dataStorage;
+        private readonly ILearningDataRepo _learningDataRepo;
 
-        public LearningDataController(ILearningDataRepo dataStorage)
+        public LearningDataController(ILearningDataRepo learningDataRepo)
         {
-            _dataStorage = dataStorage;
+            _learningDataRepo = learningDataRepo;
         }
 
         // GET: api/<LearningDataController>
         [HttpGet]
         public IActionResult Get()
         {
-            return Ok(_dataStorage.RetrieveAll());
+            return Ok(_learningDataRepo.RetrieveAll());
         }
 
         // GET api/<LearningDataController>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
         {
-            var learningData = _dataStorage.Retrieve(id);
+            var learningData = _learningDataRepo.Retrieve(id);
             if(learningData == null)
             {
                 return NotFound();
             }
-            return Ok(_dataStorage.Retrieve(id));
+            return Ok(_learningDataRepo.Retrieve(id));
         }
 
         // POST api/<LearningDataController>
         [HttpPost]
         public IActionResult Post([FromBody] LearningDataDto value)
         {
-            throw new NotImplementedException();
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            _learningDataRepo.Add(value);
+            return Ok();
         }
 
         // PUT api/<LearningDataController>/5
         [HttpPut("{id}")]
-        public IActionResult Put(int id, [FromBody] string value)
+        public IActionResult Put(int id, [FromBody] LearningDataDto value)
         {
-            throw new NotImplementedException();
+            if(!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+
+            if(_learningDataRepo.Retrieve(id) == null)
+            {
+                return NotFound();
+            }
+
+            value.Id = id;
+            _learningDataRepo.Update(value);
+            return Ok();
         }
 
         // DELETE api/<LearningDataController>/5
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            throw new NotImplementedException();
+            var learningData = _learningDataRepo.Retrieve(id);
+            if(learningData == null)
+            {
+                return NotFound();
+            }
+
+            _learningDataRepo.Remove(learningData);
+            return Ok();
         }
     }
 }

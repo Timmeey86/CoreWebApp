@@ -3,14 +3,13 @@ using CoreWebApp.LogicLayer.Dtos;
 using CoreWebApp.LogicLayer.Storage;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Xunit;
 
 namespace CoreWebApp.Tests
 {
-    public class LearningDataControllerShould
+    public class LearningDataController
     {
         private static IEnumerable<LearningDataDto> DefaultLearningData =>
             new List<LearningDataDto>()
@@ -20,20 +19,32 @@ namespace CoreWebApp.Tests
                     Id = 0,
                     Name = "First Test Entry",
                     Description = "Only for test purpose",
-                    ImageData = null,
-                    SortValue = 1
+                    ImageData = null
                 },
                 new LearningDataDto()
                 {
                     Id = 1,
                     Name = "Second Test Entry",
                     Description = "Only for test purpose",
-                    ImageData = null,
-                    SortValue = 0
+                    ImageData = null
                 },
             };
 
         private static IEnumerable<LearningDataDto> EmptyLearningData => new List<LearningDataDto>();
+
+        private static readonly LearningDataDto NewLearningDataTemplate =
+            new LearningDataDto()
+            {
+                Id = -1, // will be set by the repository
+                Name = "New Learning Data",
+                Description = "This is hopefully being added to the repository",
+                ImageData = new ImageDto()
+                {
+                    Id = -1,
+                    ImageTitle = "Test Image",
+                    ImageData = new byte[] { }
+                }
+            };
 
         /// <summary>
         /// Helper class for using strongly typed test data for cases which can be executed on an empty and a filled list
@@ -48,7 +59,7 @@ namespace CoreWebApp.Tests
         }
 
         [Fact]
-        public void ReturnValidResult_WhenRequestingLearningDataForValidId()
+        public void Get_ShouldReturnValidResult_WhenRequestingLearningDataForValidId()
         {
             // Arrange
             var expectedLearningData = DefaultLearningData.ElementAt(1);
@@ -56,7 +67,7 @@ namespace CoreWebApp.Tests
             var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
             dataRepoMock.Setup(obj => obj.Retrieve(expectedLearningData.Id)).Returns(expectedLearningData);
 
-            var sut = new LearningDataController(dataRepoMock.Object);
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
 
             // Act
             var result = sut.Get(expectedLearningData.Id);
@@ -70,7 +81,7 @@ namespace CoreWebApp.Tests
         }
 
         [Fact]
-        public void ReturnNotFoundResult_WhenRequestingLearningDataForInvalidId()
+        public void Get_ShouldReturnNotFoundResult_WhenRequestingLearningDataForInvalidId()
         {
             // Arrange
             var invalidId = 5000;
@@ -78,7 +89,7 @@ namespace CoreWebApp.Tests
             var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
             dataRepoMock.Setup(obj => obj.Retrieve(invalidId)).Returns<LearningDataDto>(null);
 
-            var sut = new LearningDataController(dataRepoMock.Object);
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
 
             // Act
             var result = sut.Get(invalidId);
@@ -90,13 +101,13 @@ namespace CoreWebApp.Tests
 
         [Theory]
         [ClassData(typeof(LearningControllerTestData))]
-        public void ReturnAllEntries_WhenRequestingAllLearningData(IEnumerable<LearningDataDto> expectedLearningData)
+        public void Get_ShouldReturnAllEntries_WhenRequestingAllLearningData(IEnumerable<LearningDataDto> expectedLearningData)
         {
             // Arrange
             var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
             dataRepoMock.Setup(obj => obj.RetrieveAll()).Returns(expectedLearningData);
 
-            var sut = new LearningDataController(dataRepoMock.Object);
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
 
             // Act
             var result = sut.Get();
@@ -107,6 +118,143 @@ namespace CoreWebApp.Tests
             var actualLearningData = okResult.Value as IEnumerable<LearningDataDto>;
             Assert.NotNull(actualLearningData);
             Assert.Equal(expectedLearningData, actualLearningData);
+        }
+
+        [Fact]
+        public void Post_ShouldStoreDataInRepo_WhenPostingValidLearningData()
+        {
+            // Arrange
+            var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
+            dataRepoMock.Setup(repo => repo.Add(NewLearningDataTemplate));
+
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
+
+            // Act
+            var result = sut.Post(NewLearningDataTemplate);
+            var okResult = result as OkResult;
+
+            // Assert
+            Assert.NotNull(okResult);
+            // Knowing that Add was called on the repository (and nothing else was called) is enough
+        }
+
+        [Fact]
+        public void Post_ShouldReturnBadRequest_WhenPostingInvalidLearningData()
+        {
+            // Arrange
+            var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
+
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
+            sut.ModelState.AddModelError("RequiredAttributeMissing", "Required attributes were missing on the request");
+
+            // Act
+            var result = sut.Post(new LearningDataDto());
+            var badRequestResult = result as BadRequestResult;
+
+            // Assert
+            Assert.NotNull(badRequestResult);
+            // Implicitly assert that no mock method was called
+        }
+
+        [Fact]
+        public void Put_ShouldUpdateDataInRepo_WhenValidUpdateRequestIsSent()
+        {
+            // Arrange
+            var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
+            var learningData = new LearningDataDto()
+            {
+                Id = DefaultLearningData.First().Id,
+                Name = "This is an updated name",
+                Description = DefaultLearningData.First().Description,
+                ImageData = DefaultLearningData.First().ImageData
+            };
+            // Expect the controller to test if the data set exists before trying to update it
+            dataRepoMock.Setup(repo => repo.Retrieve(learningData.Id)).Returns(DefaultLearningData.First());
+            dataRepoMock.Setup(repo => repo.Update(learningData));
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
+
+            // Act
+            var result = sut.Put(learningData.Id, learningData);
+            var okResult = result as OkResult;
+
+            // Assert
+            Assert.NotNull(okResult);
+        }
+
+        [Fact]
+        public void Put_ShouldReturnNotFoundResult_WhenUpdateRequestIsSentForUnknownId()
+        {
+            // Arrange
+            var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
+            var learningData = new LearningDataDto()
+            {
+                Id = 5000000,
+                Name = "Invalid",
+                Description = "Invalid",
+                ImageData = null
+            };
+            dataRepoMock.Setup(repo => repo.Retrieve(learningData.Id)).Returns<LearningDataDto>(null);
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
+
+            // Act
+            var result = sut.Put(learningData.Id, learningData);
+            var notFoundResult = result as NotFoundResult;
+
+            // Assert
+            Assert.NotNull(notFoundResult);
+        }
+
+        [Fact]
+        public void Put_ShouldReturnBadRequest_WhenUpdateRequestIsSentForIncompleteData()
+        {
+            // Arrange
+            var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
+            var incompleteData = new LearningDataDto();
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
+            sut.ModelState.AddModelError("test", "test");
+
+            // Act
+            var result = sut.Put(DefaultLearningData.First().Id, incompleteData);
+            var badRequestResult = result as BadRequestResult;
+
+            // Assert
+            Assert.NotNull(badRequestResult);
+            // We expect the LearningDataController to check for valid data before verifying whether or not the ID exists, so we expect no mock calls.
+        }
+
+        [Fact]
+        public void Delete_ShouldDeleteLearningData_WhenValidIdIsProvided()
+        {
+            // Arrange
+            var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
+            var validLearningData = DefaultLearningData.First();
+            dataRepoMock.Setup(repo => repo.Retrieve(validLearningData.Id)).Returns(validLearningData);
+            dataRepoMock.Setup(repo => repo.Remove(validLearningData));
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
+
+            // Act
+            var result = sut.Delete(validLearningData.Id);
+            var okResult = result as OkResult;
+
+            // Assert
+            Assert.NotNull(okResult);
+        }
+
+        [Fact]
+        public void Delete_ShouldReturnNotFound_WhenUnknownIdIsProvided()
+        {
+            // Arrange
+            var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
+            var invalidId = 50000;
+            dataRepoMock.Setup(repo => repo.Retrieve(invalidId)).Returns<LearningDataDto>(null);
+            var sut = new Controllers.LearningDataController(dataRepoMock.Object);
+
+            // Act
+            var result = sut.Delete(invalidId);
+            var notFoundResult = result as NotFoundResult;
+
+            // Assert
+            Assert.NotNull(notFoundResult);
         }
     }
 }
