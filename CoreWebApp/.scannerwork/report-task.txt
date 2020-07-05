@@ -1,0 +1,7 @@
+organization=timmeey86-github
+projectKey=Timmeey86_CoreWebApp
+serverUrl=https://sonarcloud.io
+serverVersion=8.0.0.9324
+dashboardUrl=https://sonarcloud.io/dashboard?id=Timmeey86_CoreWebApp
+ceTaskId=AXMdkQJ0ux5FPAgGxzQT
+ceTaskUrl=https://sonarcloud.io/api/ce/task?id=AXMdkQJ0ux5FPAgGxzQT
