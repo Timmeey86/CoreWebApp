@@ -9,4 +9,8 @@
     <AdditionalFiles Include="..\.sonarlint\timmeey86_corewebapp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LogicLayer\LogicLayer.csproj" />
+  </ItemGroup>
+
 </Project>
