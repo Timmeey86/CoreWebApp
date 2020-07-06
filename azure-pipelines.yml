@@ -51,7 +51,9 @@ steps:
       !**\xunit.runner.visualstudio.testadapter.dll
       !**\xunit.runner.visualstudio.dotnetcore.testadapter.dll
     searchFolder: '$(System.DefaultWorkingDirectory)'
+    runTestsInIsolation: true
     codeCoverageEnabled: true
+    otherConsoleOptions: '/Framework:.NETCoreApp,Version=v1.1'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
