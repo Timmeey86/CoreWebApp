@@ -10,6 +10,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="5.5.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\LogicLayer\LogicLayer.csproj" />
   </ItemGroup>
 
