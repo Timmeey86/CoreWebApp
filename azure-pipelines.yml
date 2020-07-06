@@ -53,7 +53,7 @@ steps:
     searchFolder: '$(System.DefaultWorkingDirectory)'
     runTestsInIsolation: true
     codeCoverageEnabled: true
-    otherConsoleOptions: '/Framework:.NETCoreApp,Version=v1.1'
+    otherConsoleOptions: '/Framework:.NETCoreApp,Version=v3.1'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
 
