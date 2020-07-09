@@ -57,6 +57,7 @@ namespace LogicLayer.Tests
 
             // Set up the data access factory to return the dummy image/learning data configured above
             dataAccessFactoryMock.Setup(factory => factory.CreateImageDataAccess(configurationMock.Object)).Returns(imageDataAccessMock.Object);
+            dataAccessFactoryMock.Setup(factory => factory.CreateLearningDataAccess(configurationMock.Object)).Returns(learningDataAccessMock.Object);
             imageDataAccessMock.Setup(x => x.GetImageData(DummyLearningData.LearningDataId)).Returns(DummyImageData);
             learningDataAccessMock.Setup(x => x.GetLearningData(DummyLearningData.LearningDataId)).Returns(DummyLearningData);
 

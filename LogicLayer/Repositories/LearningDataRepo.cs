@@ -31,7 +31,20 @@ namespace LogicLayer.Repositories
         public LearningDataDto Retrieve(int id)
         {
             var imageData = _dataAccessFactory.CreateImageDataAccess(_configuration).GetImageData(learningDataId: id);
-            return null;
+            var learningData = _dataAccessFactory.CreateLearningDataAccess(_configuration).GetLearningData(id);
+
+            return new LearningDataDto()
+            {
+                Id = learningData.LearningDataId,
+                Name = learningData.Name,
+                Description = learningData.Description,
+                ImageData = new ImageDto()
+                {
+                    Id = imageData.ImageDataId,
+                    ImageTitle = imageData.Title,
+                    ImageData = imageData.Data
+                }
+            };
         }
 
         public IEnumerable<LearningDataDto> RetrieveAll()
