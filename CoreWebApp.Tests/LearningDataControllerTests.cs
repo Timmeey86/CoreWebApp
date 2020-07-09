@@ -9,7 +9,7 @@ using Xunit;
 
 namespace CoreWebApp.Tests
 {
-    public class LearningDataController
+    public class LearningDataControllerTests
     {
         private static IEnumerable<LearningDataDto> DefaultLearningData =>
             new List<LearningDataDto>()
