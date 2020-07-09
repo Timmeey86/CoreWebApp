@@ -5,6 +5,7 @@
 
 trigger:
 - master
+- DataAccess
 
 pool:
   vmImage: 'windows-latest'
