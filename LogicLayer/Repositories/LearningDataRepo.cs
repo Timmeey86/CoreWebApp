@@ -1,11 +1,9 @@
 ﻿using CoreWebApp.LogicLayer.Dtos;
 using CoreWebApp.LogicLayer.Storage;
-using DataLayer.DataAccess;
 using LogicLayer.DataBridge;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace LogicLayer.Repositories
 {
