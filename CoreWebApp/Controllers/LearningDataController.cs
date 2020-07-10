@@ -19,13 +19,13 @@ namespace CoreWebApp.Controllers
 
         // GET: api/<LearningDataController>
         [HttpGet]
-        public IActionResult Get()
+        public IActionResult GetAll()
         {
             return Ok(_learningDataRepo.RetrieveAll());
         }
 
         // GET api/<LearningDataController>/5
-        [HttpGet("{id}")]
+        [HttpGet("{id}", Name = "Get")]
         public IActionResult Get(int id)
         {
             var learningData = _learningDataRepo.Retrieve(id);
@@ -46,7 +46,8 @@ namespace CoreWebApp.Controllers
             }
 
             var learningDataId = _learningDataRepo.Add(value);
-            return CreatedAtAction(nameof(Get), new { id = learningDataId }, value);
+            var newObject = _learningDataRepo.Retrieve(learningDataId);
+            return CreatedAtAction(nameof(Get), new { id = newObject.Id }, newObject);
         }
 
         // PUT api/<LearningDataController>/5

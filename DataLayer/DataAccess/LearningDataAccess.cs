@@ -17,7 +17,7 @@ namespace DataLayer.DataAccess
         {
             var insertAndSelectIdQuery = @"
                 INSERT INTO LearningData (Name, Description) 
-                OUTPUT INSERTED.Id
+                OUTPUT INSERTED.LearningDataId
                 VALUES (@Name, @Description);";
 
             var dataMapping = new
@@ -27,7 +27,7 @@ namespace DataLayer.DataAccess
             };
 
             return DataAccessHelper.ExecuteWithinConnection(
-                (connection) => connection.Execute(insertAndSelectIdQuery, dataMapping),
+                (connection) => connection.QuerySingle<int>(insertAndSelectIdQuery, dataMapping),
                 _configuration
                 );
         }

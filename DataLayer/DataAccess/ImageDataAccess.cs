@@ -20,7 +20,7 @@ namespace DataLayer.DataAccess
 
             var insertAndSelectIdQuery = @"
                 INSERT INTO ImageData (LearningDataId, Title, Data) 
-                OUTPUT INSERTED.Id
+                OUTPUT INSERTED.ImageDataId
                 VALUES (@LearningDataId, @Title, @Data);";
 
             var dataMapping = new

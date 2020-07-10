@@ -118,7 +118,7 @@ namespace CoreWebApp.Tests
             var sut = new Controllers.LearningDataController(dataRepoMock.Object);
 
             // Act
-            var result = sut.Get();
+            var result = sut.GetAll();
             var okResult = result as OkObjectResult;
 
             // Assert
@@ -135,7 +135,21 @@ namespace CoreWebApp.Tests
             // Arrange
             var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
             var expectedPrimaryKey = 5;
+            var expectedResultObject = new LearningDataDto()
+            {
+                Name = NewLearningDataTemplate.Name,
+                Description = NewLearningDataTemplate.Description,
+                Id = expectedPrimaryKey,
+                ImageData = new ImageDto()
+                {
+                    Id = expectedPrimaryKey,
+                    ImageData = NewLearningDataTemplate.ImageData.ImageData,
+                    ImageTitle = NewLearningDataTemplate.ImageData.ImageTitle
+                }
+            };
+
             dataRepoMock.Setup(repo => repo.Add(NewLearningDataTemplate)).Returns(expectedPrimaryKey);
+            dataRepoMock.Setup(repo => repo.Retrieve(expectedPrimaryKey)).Returns(expectedResultObject);
 
             var sut = new Controllers.LearningDataController(dataRepoMock.Object);
 
@@ -147,7 +161,7 @@ namespace CoreWebApp.Tests
             Assert.NotNull(specificResult);
             Assert.Equal("Get", specificResult.ActionName);
             Assert.Equal(StatusCodes.Status201Created, specificResult.StatusCode);
-            Assert.Equal(NewLearningDataTemplate, specificResult.Value);
+            Assert.Equal(expectedResultObject, specificResult.Value);
 
             VerifyMock(dataRepoMock);
         }
