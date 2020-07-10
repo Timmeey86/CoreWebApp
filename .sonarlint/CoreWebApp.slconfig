@@ -1,14 +1,14 @@
 {
   "ServerUri": "https://sonarcloud.io/",
   "Organization": {
-    "Key": "timmeey86-github",
-    "Name": "Timmeey86"
+    "Key": "sthummel",
+    "Name": "sthummel"
   },
-  "ProjectKey": "Timmeey86_CoreWebApp",
-  "ProjectName": "Core Web App (Azure Devops)",
+  "ProjectKey": "CoreWebApp",
+  "ProjectName": "CoreWebApp",
   "Profiles": {
     "CSharp": {
-      "ProfileKey": "AWn0MDbr8FPh9JKrfluT",
+      "ProfileKey": "AXMlFOtsaz2IDXJG_4AF",
       "ProfileTimestamp": "2020-06-30T11:25:36Z"
     }
   }

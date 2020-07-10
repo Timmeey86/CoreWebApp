@@ -5,11 +5,13 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWebApp", "CoreWebApp\CoreWebApp.csproj", "{B2C532B4-4BFC-4812-B215-99D841546B13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLayer", "DataLayer\DataLayer.csproj", "{FE894070-A716-4135-A395-CB37EFEF95FC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLayer", "DataLayer\DataLayer.csproj", "{FE894070-A716-4135-A395-CB37EFEF95FC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreWebApp.Tests", "CoreWebApp.Tests\CoreWebApp.Tests.csproj", "{AC755BF1-81A1-46AD-8A77-F9FB0F485F0E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWebApp.Tests", "CoreWebApp.Tests\CoreWebApp.Tests.csproj", "{AC755BF1-81A1-46AD-8A77-F9FB0F485F0E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer", "LogicLayer\LogicLayer.csproj", "{6518F652-12AB-4BC1-92B7-EF4EA0129D48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLayer", "LogicLayer\LogicLayer.csproj", "{6518F652-12AB-4BC1-92B7-EF4EA0129D48}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer.Tests", "LogicLayer.Tests\LogicLayer.Tests.csproj", "{2FB47261-9BF5-4DF6-84A0-38C7A28F5A1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{6518F652-12AB-4BC1-92B7-EF4EA0129D48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6518F652-12AB-4BC1-92B7-EF4EA0129D48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6518F652-12AB-4BC1-92B7-EF4EA0129D48}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FB47261-9BF5-4DF6-84A0-38C7A28F5A1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FB47261-9BF5-4DF6-84A0-38C7A28F5A1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FB47261-9BF5-4DF6-84A0-38C7A28F5A1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FB47261-9BF5-4DF6-84A0-38C7A28F5A1B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

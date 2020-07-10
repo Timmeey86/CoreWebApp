@@ -1,5 +1,6 @@
-using CoreWebApp.Dummy;
 using CoreWebApp.LogicLayer.Storage;
+using LogicLayer.DataBridge;
+using LogicLayer.Repositories;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -22,7 +23,9 @@ namespace CoreWebApp
         {
             services.AddControllersWithViews();
 
-            services.AddSingleton<ILearningDataRepo, DummyLearningDataRepo>();
+            services.AddSingleton<IConfiguration>(Configuration);
+            services.AddSingleton<ILearningDataRepo, LearningDataRepo>();
+            services.AddSingleton<IDataAccessFactory, DataAccessFactory>();
 
             services.AddSwaggerGen();
         }

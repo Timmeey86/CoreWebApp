@@ -16,7 +16,7 @@ namespace CoreWebApp.LogicLayer.Storage
         LearningDataDto Retrieve(int id);
         IEnumerable<LearningDataDto> RetrieveAll();
         void Update(LearningDataDto learningData);
-        void Add(LearningDataDto learningData);
+        int Add(LearningDataDto learningData);
         void Remove(LearningDataDto learningData);
     }
 }

@@ -40,13 +40,13 @@ namespace CoreWebApp.Controllers
         [HttpPost]
         public IActionResult Post([FromBody] LearningDataDto value)
         {
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
 
-            _learningDataRepo.Add(value);
-            return Ok();
+            var learningDataId = _learningDataRepo.Add(value);
+            return CreatedAtAction(nameof(Get), new { id = learningDataId }, value);
         }
 
         // PUT api/<LearningDataController>/5
