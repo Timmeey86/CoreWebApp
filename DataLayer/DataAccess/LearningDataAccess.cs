@@ -12,6 +12,11 @@ namespace DataLayer.DataAccess
             _configuration = configuration;
         }
 
+        public int AddLearningData(LearningData learningData)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public LearningData GetLearningData(int learningDataId)
         {
             return DataAccessHelper.GetSingle<LearningData>($"SELECT * FROM LearningData WHERE LearningDataId = {learningDataId}", _configuration);
@@ -20,6 +25,16 @@ namespace DataLayer.DataAccess
         public IEnumerable<LearningData> GetLearningData()
         {
             return DataAccessHelper.FillTable<LearningData>("SELECT * FROM LearningData", _configuration);
+        }
+
+        public bool Remove(LearningData learningData)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public bool Update(LearningData learningData)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace LogicLayer.Repositories
 {
@@ -20,9 +21,39 @@ namespace LogicLayer.Repositories
             _dataAccessFactory = dataAccessFactory;
         }
 
-        public void Add(LearningDataDto learningData)
+        public int Add(LearningDataDto learningData)
         {
-            throw new NotImplementedException();
+            if(learningData == null || learningData.ImageData == null)
+            {
+                throw new ArgumentNullException("learningData");
+            }
+
+            var learningDataId = AddLearningData(learningData);
+
+            AddImageData(learningData.ImageData, learningDataId);
+
+            return learningDataId;
+        }
+
+        private int AddLearningData(LearningDataDto learningData)
+        {
+            var learningDataForDb = new LearningData()
+            {
+                Name = learningData.Name,
+                Description = learningData.Description
+            };
+            return _dataAccessFactory.CreateLearningDataAccess(_configuration).AddLearningData(learningDataForDb);
+        }
+
+        private void AddImageData(ImageDto imageData, int learningDataId)
+        {
+            var imageDataForDb = new ImageData()
+            {
+                Title = imageData.ImageTitle,
+                Data = imageData.ImageData,
+                LearningDataId = learningDataId
+            };
+            _dataAccessFactory.CreateImageDataAccess(_configuration).AddImageData(imageDataForDb);
         }
 
         public void Remove(LearningDataDto learningData)

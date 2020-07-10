@@ -1,4 +1,3 @@
-using CoreWebApp.Controllers;
 using CoreWebApp.LogicLayer.Dtos;
 using CoreWebApp.LogicLayer.Storage;
 using Microsoft.AspNetCore.Mvc;
@@ -58,6 +57,12 @@ namespace CoreWebApp.Tests
             }
         }
 
+        private static void VerifyMock<T>(Mock<T> mock) where T : class
+        {
+            mock.VerifyAll();
+            mock.VerifyNoOtherCalls();
+        }
+
         [Fact]
         public void Get_ShouldReturnValidResult_WhenRequestingLearningDataForValidId()
         {
@@ -78,6 +83,7 @@ namespace CoreWebApp.Tests
             var actualLearningData = okResult.Value as LearningDataDto;
             Assert.NotNull(actualLearningData);
             Assert.Equal(expectedLearningData.Id, actualLearningData.Id);
+            VerifyMock(dataRepoMock);
         }
 
         [Fact]
@@ -97,6 +103,7 @@ namespace CoreWebApp.Tests
 
             // Assert
             Assert.NotNull(notFoundResult);
+            VerifyMock(dataRepoMock);
         }
 
         [Theory]
@@ -118,6 +125,7 @@ namespace CoreWebApp.Tests
             var actualLearningData = okResult.Value as IEnumerable<LearningDataDto>;
             Assert.NotNull(actualLearningData);
             Assert.Equal(expectedLearningData, actualLearningData);
+            VerifyMock(dataRepoMock);
         }
 
         [Fact]
@@ -125,7 +133,8 @@ namespace CoreWebApp.Tests
         {
             // Arrange
             var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
-            dataRepoMock.Setup(repo => repo.Add(NewLearningDataTemplate));
+            var expectedPrimaryKey = 5;
+            dataRepoMock.Setup(repo => repo.Add(NewLearningDataTemplate)).Returns(expectedPrimaryKey);
 
             var sut = new Controllers.LearningDataController(dataRepoMock.Object);
 
@@ -135,7 +144,7 @@ namespace CoreWebApp.Tests
 
             // Assert
             Assert.NotNull(okResult);
-            // Knowing that Add was called on the repository (and nothing else was called) is enough
+            VerifyMock(dataRepoMock);
         }
 
         [Fact]
@@ -153,7 +162,7 @@ namespace CoreWebApp.Tests
 
             // Assert
             Assert.NotNull(badRequestResult);
-            // Implicitly assert that no mock method was called
+            VerifyMock(dataRepoMock);
         }
 
         [Fact]
@@ -179,6 +188,7 @@ namespace CoreWebApp.Tests
 
             // Assert
             Assert.NotNull(okResult);
+            VerifyMock(dataRepoMock);
         }
 
         [Fact]
@@ -202,6 +212,7 @@ namespace CoreWebApp.Tests
 
             // Assert
             Assert.NotNull(notFoundResult);
+            VerifyMock(dataRepoMock);
         }
 
         [Fact]
@@ -219,7 +230,7 @@ namespace CoreWebApp.Tests
 
             // Assert
             Assert.NotNull(badRequestResult);
-            // We expect the LearningDataController to check for valid data before verifying whether or not the ID exists, so we expect no mock calls.
+            VerifyMock(dataRepoMock);
         }
 
         [Fact]
@@ -238,6 +249,7 @@ namespace CoreWebApp.Tests
 
             // Assert
             Assert.NotNull(okResult);
+            VerifyMock(dataRepoMock);
         }
 
         [Fact]
@@ -255,6 +267,7 @@ namespace CoreWebApp.Tests
 
             // Assert
             Assert.NotNull(notFoundResult);
+            VerifyMock(dataRepoMock);
         }
     }
 }

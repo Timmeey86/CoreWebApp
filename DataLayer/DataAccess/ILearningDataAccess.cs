@@ -7,5 +7,8 @@ namespace DataLayer.DataAccess
     {
         LearningData GetLearningData(int learningDataId);
         IEnumerable<LearningData> GetLearningData();
+        int AddLearningData(LearningData learningData);
+        bool Update(LearningData learningData);
+        bool Remove(LearningData learningData);
     }
 }

@@ -6,6 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Dummy\**" />
+    <Content Remove="Dummy\**" />
+    <EmbeddedResource Remove="Dummy\**" />
+    <None Remove="Dummy\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <AdditionalFiles Include="..\.sonarlint\corewebapp\CSharp\SonarLint.xml" Link="SonarLint.xml" />
   </ItemGroup>
 
@@ -16,10 +23,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\LogicLayer\LogicLayer.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Dummy\" />
   </ItemGroup>
 
 </Project>

@@ -13,80 +13,53 @@ using Xunit;
 
 namespace LogicLayer.Tests
 {
-    public class LearningDataRepoTests
+    public class LearningDataRepoTests : LearningDataRepoTestBase
     {
 
         [Fact]
         public void Retrieve_ShouldReturnValidObject_WhenProvidingValidId()
         {
-            // Arrange
-            var configurationMock = new Mock<IConfiguration>(MockBehavior.Strict);
-            var dataAccessFactoryMock = new Mock<IDataAccessFactory>(MockBehavior.Strict);
-            var imageDataAccessMock = new Mock<IImageDataAccess>(MockBehavior.Strict);
-            var learningDataAccessMock = new Mock<ILearningDataAccess>(MockBehavior.Strict);
-
-            // expect no calls on the configuration (it shouldn't be used by the class directly - it will only be forwarded to the data access layer.
-
-            // Set up the data access factory to return the dummy image/learning data configured above
-            dataAccessFactoryMock.Setup(factory => factory.CreateImageDataAccess(configurationMock.Object)).Returns(imageDataAccessMock.Object);
-            dataAccessFactoryMock.Setup(factory => factory.CreateLearningDataAccess(configurationMock.Object)).Returns(learningDataAccessMock.Object);
             var learningDataId = LearningDataRepoTestData.DummyLearningData1.LearningDataId;
-            imageDataAccessMock.Setup(x => x.GetImageData(learningDataId)).Returns(LearningDataRepoTestData.DummyImageData1);
-            learningDataAccessMock.Setup(x => x.GetLearningData(learningDataId)).Returns(LearningDataRepoTestData.DummyLearningData1);
-
-            var sut = new LearningDataRepo(configurationMock.Object, dataAccessFactoryMock.Object);
+            ImageDataAccessMock.Setup(x => x.GetImageData(learningDataId)).Returns(LearningDataRepoTestData.DummyImageData1);
+            LearningDataAccessMock.Setup(x => x.GetLearningData(learningDataId)).Returns(LearningDataRepoTestData.DummyLearningData1);
 
             // Act
-            var learningDto = sut.Retrieve(learningDataId);
+            var learningDto = Sut.Retrieve(learningDataId);
 
             // Assert
             var expectedLearningDtoString = JsonConvert.SerializeObject(LearningDataRepoTestData.DummyLearningDto1);
             var actualLearningDtoString = JsonConvert.SerializeObject(learningDto);
             Assert.Equal(expectedLearningDtoString, actualLearningDtoString);
+
+            VerifyMocks();
         }
 
         [Fact]
         public void Retrieve_ShouldReturnNull_WhenProvidingInvalidId()
         {
             // Arrange
-            var configurationMock = new Mock<IConfiguration>(MockBehavior.Strict);
-            var dataAccessFactoryMock = new Mock<IDataAccessFactory>(MockBehavior.Strict);
-            var imageDataAccessMock = new Mock<IImageDataAccess>(MockBehavior.Strict);
-            var learningDataAccessMock = new Mock<ILearningDataAccess>(MockBehavior.Strict);
             var invalidId = 5000;
-
-            dataAccessFactoryMock.Setup(factory => factory.CreateImageDataAccess(configurationMock.Object)).Returns(imageDataAccessMock.Object);
-            dataAccessFactoryMock.Setup(factory => factory.CreateLearningDataAccess(configurationMock.Object)).Returns(learningDataAccessMock.Object);
-            imageDataAccessMock.Setup(x => x.GetImageData(invalidId)).Returns<ImageData>(null);
-            learningDataAccessMock.Setup(x => x.GetLearningData(invalidId)).Returns<LearningData>(null);
-
-            var sut = new LearningDataRepo(configurationMock.Object, dataAccessFactoryMock.Object);
+            ImageDataAccessMock.Setup(x => x.GetImageData(invalidId)).Returns<ImageData>(null);
+            LearningDataAccessMock.Setup(x => x.GetLearningData(invalidId)).Returns<LearningData>(null);
 
             // Act
-            var learningDto = sut.Retrieve(invalidId);
+            var learningDto = Sut.Retrieve(invalidId);
 
             // Assert
             Assert.Null(learningDto);
+
+            VerifyMocks();
         }
 
         [Fact]
         public void RetrieveAll_ShouldReturnValidList_WhenDataArePresent()
         {
             // Arrange
-            var configurationMock = new Mock<IConfiguration>(MockBehavior.Strict);
-            var dataAccessFactoryMock = new Mock<IDataAccessFactory>(MockBehavior.Strict);
-            var imageDataAccessMock = new Mock<IImageDataAccess>(MockBehavior.Strict);
-            var learningDataAccessMock = new Mock<ILearningDataAccess>(MockBehavior.Strict);
-
-            dataAccessFactoryMock.Setup(factory => factory.CreateImageDataAccess(configurationMock.Object)).Returns(imageDataAccessMock.Object);
-            dataAccessFactoryMock.Setup(factory => factory.CreateLearningDataAccess(configurationMock.Object)).Returns(learningDataAccessMock.Object);
-            imageDataAccessMock.Setup(x => x.GetImageData()).Returns(LearningDataRepoTestData.AllImageData);
-            learningDataAccessMock.Setup(x => x.GetLearningData()).Returns(LearningDataRepoTestData.AllLearningData);
-
-            var sut = new LearningDataRepo(configurationMock.Object, dataAccessFactoryMock.Object);
+            ImageDataAccessMock.Setup(x => x.GetImageData()).Returns(LearningDataRepoTestData.AllImageData);
+            LearningDataAccessMock.Setup(x => x.GetLearningData()).Returns(LearningDataRepoTestData.AllLearningData);
 
             // Act
-            var actualLearningDataDtos = sut.RetrieveAll();
+            var actualLearningDataDtos = Sut.RetrieveAll();
 
             // Assert
             var expectedLearningDataDtos = LearningDataRepoTestData.AllLearningDataDtos;
@@ -98,30 +71,72 @@ namespace LogicLayer.Tests
                 var actualObject = JsonConvert.SerializeObject(actualLearningDataDtos.ElementAt(index));
                 Assert.Equal(expectedObject, actualObject);
             }
+            VerifyMocks();
         }
 
         [Fact]
         public void RetrieveAll_ShouldReturnEmptyList_WhenNoDataArePresent()
         {
             // Arrange
-            var configurationMock = new Mock<IConfiguration>(MockBehavior.Strict);
-            var dataAccessFactoryMock = new Mock<IDataAccessFactory>(MockBehavior.Strict);
-            var imageDataAccessMock = new Mock<IImageDataAccess>(MockBehavior.Strict);
-            var learningDataAccessMock = new Mock<ILearningDataAccess>(MockBehavior.Strict);
-
-            dataAccessFactoryMock.Setup(factory => factory.CreateImageDataAccess(configurationMock.Object)).Returns(imageDataAccessMock.Object);
-            dataAccessFactoryMock.Setup(factory => factory.CreateLearningDataAccess(configurationMock.Object)).Returns(learningDataAccessMock.Object);
-            imageDataAccessMock.Setup(x => x.GetImageData()).Returns(new List<ImageData>());
-            learningDataAccessMock.Setup(x => x.GetLearningData()).Returns(new List<LearningData>());
-
-            var sut = new LearningDataRepo(configurationMock.Object, dataAccessFactoryMock.Object);
+            ImageDataAccessMock.Setup(x => x.GetImageData()).Returns(new List<ImageData>());
+            LearningDataAccessMock.Setup(x => x.GetLearningData()).Returns(new List<LearningData>());
 
             // Act
-            var actualLearningDataDtos = sut.RetrieveAll();
+            var actualLearningDataDtos = Sut.RetrieveAll();
 
             // Assert
             Assert.NotNull(actualLearningDataDtos);
             Assert.Empty(actualLearningDataDtos);
+            VerifyMocks();
+        }
+
+        [Fact]
+        public void Add_ShouldStoreLearningDataInDataLayer_WhenValidObjectIsProvided()
+        {
+            // Arrange
+            var expectedImageData = LearningDataRepoTestData.DummyImageData1;
+            var expectedLearningData = LearningDataRepoTestData.DummyLearningData1;
+            var expectedPrimaryKey = 5;
+            ImageDataAccessMock.Setup(x => x.AddImageData(It.IsAny<ImageData>())).Returns(expectedPrimaryKey);
+            LearningDataAccessMock.Setup(x => x.AddLearningData(It.IsAny<LearningData>())).Returns(expectedPrimaryKey);
+
+            // Act
+            var actualPrimaryKey = Sut.Add(LearningDataRepoTestData.DummyLearningDto1);
+
+            // Assert
+            Assert.Equal(expectedPrimaryKey, actualPrimaryKey);
+
+            // We need to verify mocks manually since object arguments are being provided
+            LearningDataAccessMock.Verify(mock => mock.AddLearningData(
+                It.Is<LearningData>(data => CompareLearningData(data, expectedLearningData))
+                ));
+            LearningDataAccessMock.VerifyNoOtherCalls();
+
+            ImageDataAccessMock.Verify(mock => mock.AddImageData(
+                It.Is<ImageData>(data => CompareImageData(data, expectedImageData, expectedPrimaryKey))
+                ));
+            ImageDataAccessMock.VerifyNoOtherCalls();
+        }
+
+        [Fact]
+        public void Add_ShouldThrowException_WhenNullIsProvided()
+        {
+            // Arrange
+            var expectedParamName = "learningData";
+
+            // Act & Assert
+            var ex1 = Assert.Throws<ArgumentNullException>(() => Sut.Add(null));
+            var ex2 = Assert.Throws<ArgumentNullException>(() => Sut.Add(new LearningDataDto()
+            {
+                Id = 0,
+                Name = "No Image Data",
+                Description = "This shouldn't be saved",
+                ImageData = null
+            }));
+
+            Assert.Equal(expectedParamName, ex1.ParamName);
+            Assert.Equal(expectedParamName, ex2.ParamName);
+            VerifyMocks();
         }
     }
 }
