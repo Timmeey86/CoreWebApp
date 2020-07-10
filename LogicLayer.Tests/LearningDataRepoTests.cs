@@ -1,9 +1,5 @@
 using CoreWebApp.LogicLayer.Dtos;
-using DataLayer.DataAccess;
 using DataLayer.Models;
-using LogicLayer.DataBridge;
-using LogicLayer.Repositories;
-using Microsoft.Extensions.Configuration;
 using Moq;
 using Newtonsoft.Json;
 using System;

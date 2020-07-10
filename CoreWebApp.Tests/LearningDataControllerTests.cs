@@ -1,5 +1,6 @@
 using CoreWebApp.LogicLayer.Dtos;
 using CoreWebApp.LogicLayer.Storage;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
@@ -140,13 +141,16 @@ namespace CoreWebApp.Tests
 
             // Act
             var result = sut.Post(NewLearningDataTemplate);
-            var okResult = result as OkResult;
+            var specificResult = result as CreatedAtActionResult;
 
             // Assert
-            Assert.NotNull(okResult);
+            Assert.NotNull(specificResult);
+            Assert.Equal("Get", specificResult.ActionName);
+            Assert.Equal(StatusCodes.Status201Created, specificResult.StatusCode);
+            Assert.Equal(NewLearningDataTemplate, specificResult.Value);
+
             VerifyMock(dataRepoMock);
         }
-
         [Fact]
         public void Post_ShouldReturnBadRequest_WhenPostingInvalidLearningData()
         {
