@@ -1,0 +1,5 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RuleSet Name="SonarQube - CoreWebApp Sonar way" ToolsVersion="16.0">
+  <Include Path="..\.sonarlint\corewebappcsharp.ruleset" Action="Default" />
+  <Include Path="..\.sonarlint\timmeey86_corewebappcsharp.ruleset" Action="Default" />
+</RuleSet>
