@@ -101,7 +101,8 @@ namespace LogicLayer.Tests
             {
                 LearningDataId = expectedPrimaryKey,
                 Name = LearningDataRepoTestData.DummyLearningData1.Name,
-                Description = LearningDataRepoTestData.DummyLearningData1.Description
+                Description = LearningDataRepoTestData.DummyLearningData1.Description,
+                Number = LearningDataRepoTestData.DummyLearningData1.Number
             };
 
             ImageDataAccessMock.Setup(x => x.AddImageData(It.IsAny<ImageData>())).Returns(true);
@@ -138,6 +139,7 @@ namespace LogicLayer.Tests
                 Id = 0,
                 Name = "No Image Data",
                 Description = "This shouldn't be saved",
+                Number = 0,
                 ImageData = null
             }));
 
@@ -155,6 +157,7 @@ namespace LogicLayer.Tests
                 Id = 0,
                 Name = "New Name",
                 Description = "New description",
+                Number = 911,
                 ImageData = new ImageDto()
                 {
                     ImageData = Convert.FromBase64String("QUJD"),
@@ -165,7 +168,8 @@ namespace LogicLayer.Tests
             {
                 LearningDataId = updatedDataDto.Id,
                 Name = updatedDataDto.Name,
-                Description = updatedDataDto.Description
+                Description = updatedDataDto.Description,
+                Number = updatedDataDto.Number
             };
             var expectedImageData = new ImageData()
             {
@@ -206,6 +210,7 @@ namespace LogicLayer.Tests
                 Id = 0,
                 Name = "No Image Data",
                 Description = "This shouldn't be saved",
+                Number = 0,
                 ImageData = null
             }));
 

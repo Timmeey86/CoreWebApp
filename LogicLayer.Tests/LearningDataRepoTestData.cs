@@ -29,14 +29,16 @@ namespace LogicLayer.Tests
             Id = 0,
             Description = "These are dummy learning data 1",
             ImageData = DummyImageDto1,
-            Name = "Learning Data 1"
+            Name = "Learning Data 1",
+            Number = 42
         };
         public static LearningDataDto DummyLearningDto2 => new LearningDataDto()
         {
             Id = 1,
             Description = "These are dummy learning data 2",
             ImageData = DummyImageDto2,
-            Name = "Learning Data 2"
+            Name = "Learning Data 2",
+            Number = 1337
         };
         public static IEnumerable<LearningDataDto> AllLearningDataDtos => new List<LearningDataDto>()
         {
@@ -49,13 +51,15 @@ namespace LogicLayer.Tests
         {
             LearningDataId = DummyLearningDto1.Id,
             Name = DummyLearningDto1.Name,
-            Description = DummyLearningDto1.Description
+            Description = DummyLearningDto1.Description,
+            Number = DummyLearningDto1.Number
         };
         public static LearningData DummyLearningData2 => new LearningData()
         {
             LearningDataId = DummyLearningDto2.Id,
             Name = DummyLearningDto2.Name,
-            Description = DummyLearningDto2.Description
+            Description = DummyLearningDto2.Description,
+            Number = DummyLearningDto2.Number
         };
         public static IEnumerable<LearningData> AllLearningData => new List<LearningData>()
         {

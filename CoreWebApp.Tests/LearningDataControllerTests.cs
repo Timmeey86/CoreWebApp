@@ -19,6 +19,7 @@ namespace CoreWebApp.Tests
                     Id = 0,
                     Name = "First Test Entry",
                     Description = "Only for test purpose",
+                    Number = 42,
                     ImageData = null
                 },
                 new LearningDataDto()
@@ -26,6 +27,7 @@ namespace CoreWebApp.Tests
                     Id = 1,
                     Name = "Second Test Entry",
                     Description = "Only for test purpose",
+                    Number = 1337,
                     ImageData = null
                 },
             };
@@ -38,6 +40,7 @@ namespace CoreWebApp.Tests
                 Id = -1, // will be set by the repository
                 Name = "New Learning Data",
                 Description = "This is hopefully being added to the repository",
+                Number = 911,
                 ImageData = new ImageDto()
                 {
                     ImageTitle = "Test Image",
@@ -139,6 +142,7 @@ namespace CoreWebApp.Tests
                 Name = NewLearningDataTemplate.Name,
                 Description = NewLearningDataTemplate.Description,
                 Id = expectedPrimaryKey,
+                Number = NewLearningDataTemplate.Number,
                 ImageData = new ImageDto()
                 {
                     ImageData = NewLearningDataTemplate.ImageData.ImageData,
@@ -191,7 +195,8 @@ namespace CoreWebApp.Tests
                 Id = DefaultLearningData.First().Id,
                 Name = "This is an updated name",
                 Description = DefaultLearningData.First().Description,
-                ImageData = DefaultLearningData.First().ImageData
+                ImageData = DefaultLearningData.First().ImageData,
+                Number = DefaultLearningData.First().Number
             };
             // Expect the controller to test if the data set exists before trying to update it
             dataRepoMock.Setup(repo => repo.Retrieve(learningData.Id)).Returns(DefaultLearningData.First());
@@ -217,6 +222,7 @@ namespace CoreWebApp.Tests
                 Id = 5000000,
                 Name = "Invalid",
                 Description = "Invalid",
+                Number = 0,
                 ImageData = null
             };
             dataRepoMock.Setup(repo => repo.Retrieve(learningData.Id)).Returns<LearningDataDto>(null);

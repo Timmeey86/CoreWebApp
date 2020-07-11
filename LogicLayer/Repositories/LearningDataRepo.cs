@@ -39,7 +39,8 @@ namespace LogicLayer.Repositories
             var learningDataForDb = new LearningData()
             {
                 Name = learningData.Name,
-                Description = learningData.Description
+                Description = learningData.Description,
+                Number = learningData.Number
             };
             return _dataAccessFactory.CreateLearningDataAccess(_configuration).AddLearningData(learningDataForDb);
         }
@@ -108,7 +109,8 @@ namespace LogicLayer.Repositories
             {
                 LearningDataId = learningData.Id,
                 Name = learningData.Name,
-                Description = learningData.Description
+                Description = learningData.Description,
+                Number = learningData.Number
             };
             _dataAccessFactory.CreateLearningDataAccess(_configuration).UpdateLearningData(learningDataForDb);
         }
@@ -120,6 +122,7 @@ namespace LogicLayer.Repositories
                 Id = learningData.LearningDataId,
                 Name = learningData.Name,
                 Description = learningData.Description,
+                Number = learningData.Number,
                 ImageData = new ImageDto()
                 {
                     ImageTitle = imageData.Title,

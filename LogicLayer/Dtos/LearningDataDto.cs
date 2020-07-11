@@ -8,11 +8,14 @@ namespace CoreWebApp.LogicLayer.Dtos
     public class LearningDataDto
     {
         public int Id { get; set; }
-        public ImageDto ImageData { get; set; }
         [Required]
         [MaxLength(255)]
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
+        [Required]
+        public int Number { get; set; }
+        [Required]
+        public ImageDto ImageData { get; set; }
     }
 }

@@ -44,7 +44,7 @@ namespace LogicLayer.Tests
 
         protected static bool CompareLearningData(LearningData data, LearningData reference)
         {
-            return data.Name == reference.Name && data.Description == reference.Description;
+            return data.Name == reference.Name && data.Description == reference.Description && data.Number == reference.Number;
         }
     }
 }
