@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreWebApp.Tests", "CoreWeb
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLayer", "LogicLayer\LogicLayer.csproj", "{6518F652-12AB-4BC1-92B7-EF4EA0129D48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LogicLayer.Tests", "LogicLayer.Tests\LogicLayer.Tests.csproj", "{2FB47261-9BF5-4DF6-84A0-38C7A28F5A1B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LogicLayer.Tests", "LogicLayer.Tests\LogicLayer.Tests.csproj", "{2FB47261-9BF5-4DF6-84A0-38C7A28F5A1B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -22,6 +22,7 @@ namespace CoreWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddRazorPages();
 
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<ILearningDataRepo, LearningDataRepo>();
@@ -55,6 +56,7 @@ namespace CoreWebApp
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapRazorPages();
             });
 
             app.UseSwagger();
