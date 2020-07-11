@@ -8,6 +8,16 @@ namespace DataLayer.DataAccess
     public class LearningDataAccess : ILearningDataAccess
     {
         private readonly IConfiguration _configuration;
+
+        private const string TableName = "LearningData";
+
+        private static class ColumnNames
+        {
+            public const string PrimaryKey = "LearningDataId";
+            public const string Name = "Name";
+            public const string Description = "Description";
+        }
+
         public LearningDataAccess(IConfiguration configuration)
         {
             _configuration = configuration;
@@ -15,41 +25,44 @@ namespace DataLayer.DataAccess
 
         public int AddLearningData(LearningData learningData)
         {
-            var insertAndSelectIdQuery = @"
-                INSERT INTO LearningData (Name, Description) 
-                OUTPUT INSERTED.LearningDataId
+            var insertAndSelectIdQuery = $@"
+                INSERT INTO {TableName} ({ColumnNames.Name}, {ColumnNames.Description})
+                OUTPUT INSERTED.{ColumnNames.PrimaryKey}
                 VALUES (@Name, @Description);";
 
-            var dataMapping = new
-            {
-                learningData.Name,
-                learningData.Description
-            };
-
             return DataAccessHelper.ExecuteWithinConnection(
-                (connection) => connection.QuerySingle<int>(insertAndSelectIdQuery, dataMapping),
+                (connection) => connection.QuerySingle<int>(insertAndSelectIdQuery, learningData),
                 _configuration
                 );
         }
 
         public LearningData GetLearningData(int learningDataId)
         {
-            return DataAccessHelper.GetSingle<LearningData>($"SELECT * FROM LearningData WHERE LearningDataId = {learningDataId}", _configuration);
+            return DataAccessHelper.GetSingle<LearningData>($"SELECT * FROM {TableName} WHERE {ColumnNames.PrimaryKey} = {learningDataId}", _configuration);
         }
 
         public IEnumerable<LearningData> GetLearningData()
         {
-            return DataAccessHelper.FillTable<LearningData>("SELECT * FROM LearningData", _configuration);
+            return DataAccessHelper.FillTable<LearningData>($"SELECT * FROM {TableName}", _configuration);
         }
 
-        public bool Remove(LearningData learningData)
+        public bool RemoveLearningData(int learningDataId)
         {
-            throw new System.NotImplementedException();
+            return DataAccessHelper.ExecuteWithinConnection(
+                (connection) => connection.Execute($"DELETE FROM {TableName} WHERE {ColumnNames.PrimaryKey} = {learningDataId}"),
+                _configuration
+                ) == 1;
         }
 
-        public bool Update(LearningData learningData)
+        public bool UpdateLearningData(LearningData learningData)
         {
-            throw new System.NotImplementedException();
+            var updateQuery = $@"
+                UPDATE {TableName}
+                SET    {ColumnNames.Name} = @Name,
+                       {ColumnNames.Description} = @Description
+                WHERE  {ColumnNames.PrimaryKey} = @LearningDataId";
+
+            return DataAccessHelper.ExecuteWithinConnection((connection) => connection.Execute(updateQuery), _configuration) == 1;
         }
     }
 }

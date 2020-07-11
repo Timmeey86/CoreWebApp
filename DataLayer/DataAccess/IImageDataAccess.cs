@@ -7,8 +7,8 @@ namespace DataLayer.DataAccess
     {
         ImageData GetImageData(int learningDataId);
         IEnumerable<ImageData> GetImageData();
-        int AddImageData(ImageData imageData);
+        bool AddImageData(ImageData imageData);
         bool UpdateImageData(ImageData imageData);
-        bool RemoveImageData(ImageData imageData);
+        bool RemoveImageData(int learningDataId);
     }
 }

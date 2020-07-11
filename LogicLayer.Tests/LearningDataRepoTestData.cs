@@ -10,13 +10,11 @@ namespace LogicLayer.Tests
         // Expected output Dtos
         public static ImageDto DummyImageDto1 => new ImageDto()
         {
-            Id = 0,
             ImageData = Convert.FromBase64String("QUJD"), // Base64 for ABC
             ImageTitle = "Dummy Image"
         };
         public static ImageDto DummyImageDto2 => new ImageDto()
         {
-            Id = 1,
             ImageData = Convert.FromBase64String("RUZH"), // Base64 for EFG
             ImageTitle = "Dummy Image 2"
         };
@@ -67,14 +65,12 @@ namespace LogicLayer.Tests
 
         public static ImageData DummyImageData1 => new ImageData()
         {
-            ImageDataId = DummyImageDto1.Id,
             Data = DummyImageDto1.ImageData,
             Title = DummyImageDto1.ImageTitle,
             LearningDataId = DummyLearningData1.LearningDataId
         };
         public static ImageData DummyImageData2 => new ImageData()
         {
-            ImageDataId = DummyImageDto2.Id,
             Data = DummyImageDto2.ImageData,
             Title = DummyImageDto2.ImageTitle,
             LearningDataId = DummyLearningData2.LearningDataId

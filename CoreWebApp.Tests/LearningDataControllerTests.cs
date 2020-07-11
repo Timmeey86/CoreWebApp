@@ -40,7 +40,6 @@ namespace CoreWebApp.Tests
                 Description = "This is hopefully being added to the repository",
                 ImageData = new ImageDto()
                 {
-                    Id = -1,
                     ImageTitle = "Test Image",
                     ImageData = new byte[] { }
                 }
@@ -142,7 +141,6 @@ namespace CoreWebApp.Tests
                 Id = expectedPrimaryKey,
                 ImageData = new ImageDto()
                 {
-                    Id = expectedPrimaryKey,
                     ImageData = NewLearningDataTemplate.ImageData.ImageData,
                     ImageTitle = NewLearningDataTemplate.ImageData.ImageTitle
                 }
@@ -258,7 +256,7 @@ namespace CoreWebApp.Tests
             var dataRepoMock = new Mock<ILearningDataRepo>(MockBehavior.Strict);
             var validLearningData = DefaultLearningData.First();
             dataRepoMock.Setup(repo => repo.Retrieve(validLearningData.Id)).Returns(validLearningData);
-            dataRepoMock.Setup(repo => repo.Remove(validLearningData));
+            dataRepoMock.Setup(repo => repo.Remove(validLearningData.Id));
             var sut = new Controllers.LearningDataController(dataRepoMock.Object);
 
             // Act

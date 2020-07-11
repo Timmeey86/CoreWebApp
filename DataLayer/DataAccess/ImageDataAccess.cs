@@ -9,51 +9,58 @@ namespace DataLayer.DataAccess
     {
         private readonly IConfiguration _configuration;
 
+        private const string TableName = "ImageData";
+
+        private static class ColumnNames
+        {
+            public const string ParentKey = "LearningDataId";
+            public const string Title = "Title";
+            public const string Data = "Data";
+        }
+
         public ImageDataAccess(IConfiguration configuration)
         {
             _configuration = configuration;
         }
 
-        public int AddImageData(ImageData imageData)
+        public bool AddImageData(ImageData imageData)
         {
             // TODO: Use one transaction for image data and learning data. Maybe reconsider interfaces
 
-            var insertAndSelectIdQuery = @"
-                INSERT INTO ImageData (LearningDataId, Title, Data) 
-                OUTPUT INSERTED.ImageDataId
-                VALUES (@LearningDataId, @Title, @Data);";
-
-            var dataMapping = new
-            {
-                imageData.LearningDataId,
-                imageData.Title,
-                imageData.Data
-            };
+            var insertAndSelectIdQuery = $@"
+                INSERT INTO {TableName} ({ColumnNames.ParentKey}, {ColumnNames.Title}, {ColumnNames.Data})
+                VALUES (@LearningDataId, @Title, @Data)";
 
             return DataAccessHelper.ExecuteWithinConnection(
-                (connection) => connection.Execute(insertAndSelectIdQuery, dataMapping),
+                (connection) => connection.Execute(insertAndSelectIdQuery, imageData),
                 _configuration
-                );
+                ) == 1;
         }
 
         public ImageData GetImageData(int learningDataId)
         {
-            return DataAccessHelper.GetSingle<ImageData>($"SELECT * FROM ImageData WHERE LearningDataId = {learningDataId}", _configuration);
+            // Note: We are retrieving image data through the parent key
+            return DataAccessHelper.GetSingle<ImageData>($"SELECT * FROM {TableName} WHERE {ColumnNames.ParentKey} = {learningDataId}", _configuration);
         }
 
         public IEnumerable<ImageData> GetImageData()
         {
-            return DataAccessHelper.FillTable<ImageData>("SELECT * FROM ImageData", _configuration);
+            return DataAccessHelper.FillTable<ImageData>("SELECT * FROM {TableName}", _configuration);
         }
 
-        public bool RemoveImageData(ImageData imageData)
+        public bool RemoveImageData(int learningDataId)
         {
-            throw new System.NotImplementedException();
+            return DataAccessHelper.ExecuteWithinConnection(
+                (connection) => connection.Execute($"DELETE FROM {TableName} WHERE {ColumnNames.ParentKey} = {learningDataId}"), 
+                _configuration
+                ) == 1;
         }
 
         public bool UpdateImageData(ImageData imageData)
         {
-            throw new System.NotImplementedException();
+            var updateQuery = $@"UPDATE {TableName} SET {ColumnNames.Title} = @Title, {ColumnNames.Data} = @Data WHERE {ColumnNames.ParentKey} = @LearningDataId";
+
+            return DataAccessHelper.ExecuteWithinConnection((connection) => connection.Execute(updateQuery, imageData), _configuration) == 1;
         }
     }
 }

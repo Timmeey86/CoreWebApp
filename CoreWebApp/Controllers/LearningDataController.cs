@@ -79,7 +79,7 @@ namespace CoreWebApp.Controllers
                 return NotFound();
             }
 
-            _learningDataRepo.Remove(learningData);
+            _learningDataRepo.Remove(id);
             return Ok();
         }
     }

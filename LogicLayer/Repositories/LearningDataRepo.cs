@@ -55,9 +55,10 @@ namespace LogicLayer.Repositories
             _dataAccessFactory.CreateImageDataAccess(_configuration).AddImageData(imageDataForDb);
         }
 
-        public void Remove(LearningDataDto learningData)
+        public void Remove(int learningDataId)
         {
-            throw new NotImplementedException();
+            _dataAccessFactory.CreateImageDataAccess(_configuration).RemoveImageData(learningDataId);
+            _dataAccessFactory.CreateLearningDataAccess(_configuration).RemoveLearningData(learningDataId);
         }
 
         public LearningDataDto Retrieve(int id)
@@ -90,7 +91,26 @@ namespace LogicLayer.Repositories
 
         public void Update(LearningDataDto learningData)
         {
-            throw new NotImplementedException();
+            if(learningData == null || learningData.ImageData == null)
+            {
+                throw new ArgumentNullException("learningData");
+            }
+
+            var imageDataForDb = new ImageData()
+            {
+                Title = learningData.ImageData.ImageTitle,
+                Data = learningData.ImageData.ImageData,
+                LearningDataId = learningData.Id
+            };
+            _dataAccessFactory.CreateImageDataAccess(_configuration).UpdateImageData(imageDataForDb);
+
+            var learningDataForDb = new LearningData()
+            {
+                LearningDataId = learningData.Id,
+                Name = learningData.Name,
+                Description = learningData.Description
+            };
+            _dataAccessFactory.CreateLearningDataAccess(_configuration).UpdateLearningData(learningDataForDb);
         }
 
         private LearningDataDto CreateLearningDataDto(LearningData learningData, ImageData imageData)
@@ -102,7 +122,6 @@ namespace LogicLayer.Repositories
                 Description = learningData.Description,
                 ImageData = new ImageDto()
                 {
-                    Id = imageData.ImageDataId,
                     ImageTitle = imageData.Title,
                     ImageData = imageData.Data
                 }

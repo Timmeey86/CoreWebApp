@@ -90,10 +90,21 @@ namespace LogicLayer.Tests
         public void Add_ShouldStoreLearningDataInDataLayer_WhenValidObjectIsProvided()
         {
             // Arrange
-            var expectedImageData = LearningDataRepoTestData.DummyImageData1;
-            var expectedLearningData = LearningDataRepoTestData.DummyLearningData1;
             var expectedPrimaryKey = 5;
-            ImageDataAccessMock.Setup(x => x.AddImageData(It.IsAny<ImageData>())).Returns(expectedPrimaryKey);
+            var expectedImageData = new ImageData()
+            {
+                LearningDataId = expectedPrimaryKey,
+                Data = LearningDataRepoTestData.DummyImageData1.Data,
+                Title = LearningDataRepoTestData.DummyImageData1.Title
+            };
+            var expectedLearningData = new LearningData()
+            {
+                LearningDataId = expectedPrimaryKey,
+                Name = LearningDataRepoTestData.DummyLearningData1.Name,
+                Description = LearningDataRepoTestData.DummyLearningData1.Description
+            };
+
+            ImageDataAccessMock.Setup(x => x.AddImageData(It.IsAny<ImageData>())).Returns(true);
             LearningDataAccessMock.Setup(x => x.AddLearningData(It.IsAny<LearningData>())).Returns(expectedPrimaryKey);
 
             // Act
@@ -109,7 +120,7 @@ namespace LogicLayer.Tests
             LearningDataAccessMock.VerifyNoOtherCalls();
 
             ImageDataAccessMock.Verify(mock => mock.AddImageData(
-                It.Is<ImageData>(data => CompareImageData(data, expectedImageData, expectedPrimaryKey))
+                It.Is<ImageData>(data => CompareImageData(data, expectedImageData))
                 ));
             ImageDataAccessMock.VerifyNoOtherCalls();
         }
@@ -134,5 +145,89 @@ namespace LogicLayer.Tests
             Assert.Equal(expectedParamName, ex2.ParamName);
             VerifyMocks();
         }
+
+        [Fact]
+        public void Update_ShouldCallUpdateOnDataLayer_WhenProvidingValidUpdateRequest()
+        {
+            // Arrange
+            var updatedDataDto = new LearningDataDto()
+            {
+                Id = 0,
+                Name = "New Name",
+                Description = "New description",
+                ImageData = new ImageDto()
+                {
+                    ImageData = Convert.FromBase64String("QUJD"),
+                    ImageTitle = "New Title"
+                }
+            };
+            var expectedLearningData = new LearningData()
+            {
+                LearningDataId = updatedDataDto.Id,
+                Name = updatedDataDto.Name,
+                Description = updatedDataDto.Description
+            };
+            var expectedImageData = new ImageData()
+            {
+                LearningDataId = updatedDataDto.Id,
+                Title = updatedDataDto.ImageData.ImageTitle,
+                Data = updatedDataDto.ImageData.ImageData
+            };
+            ImageDataAccessMock.Setup(x => x.UpdateImageData(It.IsAny<ImageData>())).Returns(true);
+            LearningDataAccessMock.Setup(x => x.UpdateLearningData(It.IsAny<LearningData>())).Returns(true);
+
+            // Act
+            Sut.Update(updatedDataDto);
+
+            // Assert
+            // We need to verify mocks manually since object arguments are being provided
+            LearningDataAccessMock.Verify(mock => mock.UpdateLearningData(
+                It.Is<LearningData>(data => CompareLearningData(data, expectedLearningData))
+                ));
+            LearningDataAccessMock.VerifyNoOtherCalls();
+
+            ImageDataAccessMock.Verify(mock => mock.UpdateImageData(
+                It.Is<ImageData>(data => CompareImageData(data, expectedImageData))
+                ));
+            ImageDataAccessMock.VerifyNoOtherCalls();
+
+        }
+
+        [Fact]
+        public void Update_ShouldThrowException_WhenNullIsProvided()
+        {
+            // Arrange
+            var expectedParamName = "learningData";
+
+            // Act & Assert
+            var ex1 = Assert.Throws<ArgumentNullException>(() => Sut.Update(null));
+            var ex2 = Assert.Throws<ArgumentNullException>(() => Sut.Update(new LearningDataDto()
+            {
+                Id = 0,
+                Name = "No Image Data",
+                Description = "This shouldn't be saved",
+                ImageData = null
+            }));
+
+            Assert.Equal(expectedParamName, ex1.ParamName);
+            Assert.Equal(expectedParamName, ex2.ParamName);
+            VerifyMocks();
+        }
+
+        [Fact]
+        public void Remove_ShouldCallRemoveOnDataLayer_WhenValidIdIsProvided()
+        {
+            // Arrange
+            var learningDataId = 4;
+            ImageDataAccessMock.Setup(x => x.RemoveImageData(learningDataId)).Returns(true);
+            LearningDataAccessMock.Setup(x => x.RemoveLearningData(learningDataId)).Returns(true);
+
+            // Act
+            Sut.Remove(learningDataId);
+
+            // Assert
+            VerifyMocks();
+        }
+
     }
 }

@@ -37,9 +37,9 @@ namespace LogicLayer.Tests
             LearningDataAccessMock.VerifyNoOtherCalls();
         }
 
-        protected static bool CompareImageData(ImageData data, ImageData reference, int expectedPrimaryKey)
+        protected static bool CompareImageData(ImageData data, ImageData reference)
         {
-            return data.LearningDataId == expectedPrimaryKey && data.Title == reference.Title && data.Data.SequenceEqual(reference.Data);
+            return data.LearningDataId == reference.LearningDataId && data.Title == reference.Title && data.Data.SequenceEqual(reference.Data);
         }
 
         protected static bool CompareLearningData(LearningData data, LearningData reference)
