@@ -158,11 +158,8 @@ namespace LogicLayer.Tests
                 Name = "New Name",
                 Description = "New description",
                 Number = 911,
-                ImageData = new ImageDto()
-                {
-                    ImageData = Convert.FromBase64String("QUJD"),
-                    ImageTitle = "New Title"
-                }
+                ImageData = "QUJD",
+                ImageTitle = "New Title"
             };
             var expectedLearningData = new LearningData()
             {
@@ -174,8 +171,8 @@ namespace LogicLayer.Tests
             var expectedImageData = new ImageData()
             {
                 LearningDataId = updatedDataDto.Id,
-                Title = updatedDataDto.ImageData.ImageTitle,
-                Data = updatedDataDto.ImageData.ImageData
+                Title = updatedDataDto.ImageTitle,
+                Data = Convert.FromBase64String(updatedDataDto.ImageData)
             };
             ImageDataAccessMock.Setup(x => x.UpdateImageData(It.IsAny<ImageData>())).Returns(true);
             LearningDataAccessMock.Setup(x => x.UpdateLearningData(It.IsAny<LearningData>())).Returns(true);

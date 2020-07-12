@@ -18,6 +18,9 @@ namespace CoreWebApp.LogicLayer.Dtos
         [Range(0,999)]
         public int Number { get; set; }
         [Required]
-        public ImageDto ImageData { get; set; }
+        [StringLength(255)]
+        public string ImageTitle { get; set; }
+        [Required]
+        public string ImageData { get; set; }
     }
 }

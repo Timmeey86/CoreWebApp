@@ -8,37 +8,24 @@ namespace LogicLayer.Tests
     internal static class LearningDataRepoTestData
     {
         // Expected output Dtos
-        public static ImageDto DummyImageDto1 => new ImageDto()
-        {
-            ImageData = Convert.FromBase64String("QUJD"), // Base64 for ABC
-            ImageTitle = "Dummy Image"
-        };
-        public static ImageDto DummyImageDto2 => new ImageDto()
-        {
-            ImageData = Convert.FromBase64String("RUZH"), // Base64 for EFG
-            ImageTitle = "Dummy Image 2"
-        };
-        public static IEnumerable<ImageDto> AllImageDtos => new List<ImageDto>()
-        {
-            DummyImageDto1,
-            DummyImageDto2
-        };
 
         public static LearningDataDto DummyLearningDto1 => new LearningDataDto()
         {
             Id = 0,
             Description = "These are dummy learning data 1",
-            ImageData = DummyImageDto1,
             Name = "Learning Data 1",
-            Number = 42
+            Number = 42,
+            ImageData = "QUJD", // Base64 for ABC
+            ImageTitle = "Dummy Image"
         };
         public static LearningDataDto DummyLearningDto2 => new LearningDataDto()
         {
             Id = 1,
             Description = "These are dummy learning data 2",
-            ImageData = DummyImageDto2,
             Name = "Learning Data 2",
-            Number = 1337
+            Number = 1337,
+            ImageData = "RUZH", // Base64 for EFG
+            ImageTitle = "Dummy Image 2"
         };
         public static IEnumerable<LearningDataDto> AllLearningDataDtos => new List<LearningDataDto>()
         {
@@ -69,14 +56,14 @@ namespace LogicLayer.Tests
 
         public static ImageData DummyImageData1 => new ImageData()
         {
-            Data = DummyImageDto1.ImageData,
-            Title = DummyImageDto1.ImageTitle,
+            Data = Convert.FromBase64String(DummyLearningDto1.ImageData),
+            Title = DummyLearningDto1.ImageTitle,
             LearningDataId = DummyLearningData1.LearningDataId
         };
         public static ImageData DummyImageData2 => new ImageData()
         {
-            Data = DummyImageDto2.ImageData,
-            Title = DummyImageDto2.ImageTitle,
+            Data = Convert.FromBase64String(DummyLearningDto2.ImageData),
+            Title = DummyLearningDto2.ImageTitle,
             LearningDataId = DummyLearningData2.LearningDataId
         };
         public static IEnumerable<ImageData> AllImageData => new List<ImageData>()

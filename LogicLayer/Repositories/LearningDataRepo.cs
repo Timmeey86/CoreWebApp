@@ -29,7 +29,7 @@ namespace LogicLayer.Repositories
 
             var learningDataId = AddLearningData(learningData);
 
-            AddImageData(learningData.ImageData, learningDataId);
+            AddImageData(learningData, learningDataId);
 
             return learningDataId;
         }
@@ -45,12 +45,12 @@ namespace LogicLayer.Repositories
             return _dataAccessFactory.CreateLearningDataAccess(_configuration).AddLearningData(learningDataForDb);
         }
 
-        private void AddImageData(ImageDto imageData, int learningDataId)
+        private void AddImageData(LearningDataDto learningData, int learningDataId)
         {
             var imageDataForDb = new ImageData()
             {
-                Title = imageData.ImageTitle,
-                Data = imageData.ImageData,
+                Title = learningData.ImageTitle,
+                Data = Convert.FromBase64String(learningData.ImageData),
                 LearningDataId = learningDataId
             };
             _dataAccessFactory.CreateImageDataAccess(_configuration).AddImageData(imageDataForDb);
@@ -99,8 +99,8 @@ namespace LogicLayer.Repositories
 
             var imageDataForDb = new ImageData()
             {
-                Title = learningData.ImageData.ImageTitle,
-                Data = learningData.ImageData.ImageData,
+                Title = learningData.ImageTitle,
+                Data = Convert.FromBase64String(learningData.ImageData),
                 LearningDataId = learningData.Id
             };
             _dataAccessFactory.CreateImageDataAccess(_configuration).UpdateImageData(imageDataForDb);
@@ -123,11 +123,8 @@ namespace LogicLayer.Repositories
                 Name = learningData.Name,
                 Description = learningData.Description,
                 Number = learningData.Number,
-                ImageData = new ImageDto()
-                {
-                    ImageTitle = imageData.Title,
-                    ImageData = imageData.Data
-                }
+                ImageTitle = imageData.Title,
+                ImageData = Convert.ToBase64String(imageData.Data)
             };
         }
     }

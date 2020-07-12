@@ -41,11 +41,8 @@ namespace CoreWebApp.Tests
                 Name = "New Learning Data",
                 Description = "This is hopefully being added to the repository",
                 Number = 911,
-                ImageData = new ImageDto()
-                {
-                    ImageTitle = "Test Image",
-                    ImageData = new byte[] { }
-                }
+                ImageTitle = "Test Image",
+                ImageData = ""
             };
 
         /// <summary>
@@ -143,11 +140,8 @@ namespace CoreWebApp.Tests
                 Description = NewLearningDataTemplate.Description,
                 Id = expectedPrimaryKey,
                 Number = NewLearningDataTemplate.Number,
-                ImageData = new ImageDto()
-                {
-                    ImageData = NewLearningDataTemplate.ImageData.ImageData,
-                    ImageTitle = NewLearningDataTemplate.ImageData.ImageTitle
-                }
+                ImageData = NewLearningDataTemplate.ImageData,
+                ImageTitle = NewLearningDataTemplate.ImageTitle
             };
 
             dataRepoMock.Setup(repo => repo.Add(NewLearningDataTemplate)).Returns(expectedPrimaryKey);
