@@ -45,7 +45,7 @@ namespace DataLayer.DataAccess
 
         public IEnumerable<ImageData> GetImageData()
         {
-            return DataAccessHelper.FillTable<ImageData>("SELECT * FROM {TableName}", _configuration);
+            return DataAccessHelper.FillTable<ImageData>($"SELECT * FROM {TableName}", _configuration);
         }
 
         public bool RemoveImageData(int learningDataId)
