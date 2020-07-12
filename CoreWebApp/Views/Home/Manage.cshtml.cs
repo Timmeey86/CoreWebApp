@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using CoreWebApp.LogicLayer.Dtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -9,8 +6,16 @@ namespace CoreWebApp.Views
 {
     public class ManageModel : PageModel
     {
-        public void OnGet()
+        [BindProperty]
+        public LearningDataDto LearningData { get; set; }
+
+        public IActionResult OnPost()
         {
+            if(!ModelState.IsValid)
+            {
+                return Page();
+            }
+            return Page();
         }
     }
 }

@@ -22,7 +22,7 @@ namespace CoreWebApp
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            services.AddRazorPages();
+            services.AddRazorPages(configure => configure.RootDirectory = "/Views");
 
             services.AddSingleton<IConfiguration>(Configuration);
             services.AddSingleton<ILearningDataRepo, LearningDataRepo>();

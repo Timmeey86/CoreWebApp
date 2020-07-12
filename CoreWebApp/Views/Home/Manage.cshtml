@@ -1,18 +1,43 @@
 ﻿@page
 @model CoreWebApp.Views.ManageModel
 @{
+    ViewData["Title"] = "Add Learning Data";
 }
 
 <div class="text-center">
     <h1 class="display-4">Woop Woop</h1>
 </div>
 
-<div class="custom-file mb-3">
-    <input type="file" class="custom-file-input" id="customFile" name="filename">
-    <label class="custom-file-label" id="customFileLabel" for="customFile">Choose file</label>
-</div>
-<button type="button" class="btn btn-primary" id="SubmitButton">Submit</button>
-<input type="hidden" id="base64placeholder" value="" />
+<form method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="form-group">
+        <label for="number">Number:</label>
+        <input type="text" class="form-control" id="number" asp-for="LearningData.Number">
+        <span asp-validation-for="LearningData.Number" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" asp-for="LearningData.Name">
+        <span asp-validation-for="LearningData.Name" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <input type="text" class="form-control" id="description" asp-for="LearningData.Description">
+        <span asp-validation-for="LearningData.Description" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <div class="custom-file mb-3">
+            <input type="file" class="custom-file-input" id="customFile" name="filename">
+            <label class="custom-file-label" id="customFileLabel" for="customFile" asp-for="LearningData.ImageData.ImageTitle">Choose file</label>
+        </div>
+        <span asp-validation-for="LearningData.ImageData.ImageTitle" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <input type="text" readonly="readonly" id ="base64placeholder" value="" asp-for="LearningData.ImageData.ImageData" />
+        <span asp-validation-for="LearningData.ImageData.ImageData" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary" id="SubmitButton">Submit</button>
+</form>
 
 @section Scripts{
 
@@ -36,9 +61,6 @@
                 .val(base64Img)
                 .end();
         }));
-
-        $('#SubmitButton').click(function () {
-            alert("Base 64 string is " + $('#base64placeholder').val());
-        })
     </script>
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

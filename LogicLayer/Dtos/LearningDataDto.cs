@@ -9,11 +9,13 @@ namespace CoreWebApp.LogicLayer.Dtos
     {
         public int Id { get; set; }
         [Required]
-        [MaxLength(255)]
+        [StringLength(255)]
         public string Name { get; set; }
         [Required]
+        [StringLength(2000)]
         public string Description { get; set; }
         [Required]
+        [Range(0,999)]
         public int Number { get; set; }
         [Required]
         public ImageDto ImageData { get; set; }
