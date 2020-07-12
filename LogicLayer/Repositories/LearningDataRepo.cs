@@ -47,10 +47,15 @@ namespace LogicLayer.Repositories
 
         private void AddImageData(LearningDataDto learningData, int learningDataId)
         {
+            var imageString = learningData.ImageData;
+            if(imageString.Contains(','))
+            {
+                imageString = imageString.Split(',').ElementAt(1);
+            }
             var imageDataForDb = new ImageData()
             {
                 Title = learningData.ImageTitle,
-                Data = Convert.FromBase64String(learningData.ImageData),
+                Data = Convert.FromBase64String(imageString),
                 LearningDataId = learningDataId
             };
             _dataAccessFactory.CreateImageDataAccess(_configuration).AddImageData(imageDataForDb);

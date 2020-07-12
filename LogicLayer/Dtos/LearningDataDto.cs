@@ -11,7 +11,6 @@ namespace CoreWebApp.LogicLayer.Dtos
         [Required]
         [StringLength(255)]
         public string Name { get; set; }
-        [Required]
         [StringLength(2000)]
         public string Description { get; set; }
         [Required]

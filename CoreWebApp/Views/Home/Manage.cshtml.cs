@@ -26,8 +26,8 @@ namespace CoreWebApp.Views
             }
 
             // Learning Data should be complete at this point
-            //_learningDataRepo.Add(LearningData);
-            return RedirectToPage("/Index");
+            _learningDataRepo.Add(LearningData);
+            return Page();
         }
     }
 }
