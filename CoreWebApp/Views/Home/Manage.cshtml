@@ -9,7 +9,7 @@
 
 <div class="custom-file mb-3">
     <input type="file" class="custom-file-input" id="customFile" name="filename">
-    <label class="custom-file-label" for="customFile">Choose file</label>
+    <label class="custom-file-label" id="customFileLabel" for="customFile">Choose file</label>
 </div>
 <button type="button" class="btn btn-primary" id="SubmitButton">Submit</button>
 <input type="hidden" id="base64placeholder" value="" />
@@ -22,13 +22,16 @@
                 var file = this.files[0];
                 var reader = new FileReader();
                 reader.onloadend = function () {
-                    callback(reader.result);
+                    callback(reader.result, file);
                 }
                 reader.readAsDataURL(file);
             }
         }
 
-        $('#customFile').change(encodeImageFileAsURL(function (base64Img) {
+        $('#customFile').change(encodeImageFileAsURL(function (base64Img, file) {
+
+            var fileName = file.name.split("\\").pop();
+            $('.custom-file-label').addClass('selected').html(fileName);
             $('#base64placeholder')
                 .val(base64Img)
                 .end();
