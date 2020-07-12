@@ -6,3 +6,36 @@
 <div class="text-center">
     <h1 class="display-4">Woop Woop</h1>
 </div>
+
+<div class="custom-file mb-3">
+    <input type="file" class="custom-file-input" id="customFile" name="filename">
+    <label class="custom-file-label" for="customFile">Choose file</label>
+</div>
+<button type="button" class="btn btn-primary" id="SubmitButton">Submit</button>
+<input type="hidden" id="base64placeholder" value="" />
+
+@section Scripts{
+
+    <script>
+        function encodeImageFileAsURL(callback) {
+            return function () {
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onloadend = function () {
+                    callback(reader.result);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        $('#customFile').change(encodeImageFileAsURL(function (base64Img) {
+            $('#base64placeholder')
+                .val(base64Img)
+                .end();
+        }));
+
+        $('#SubmitButton').click(function () {
+            alert("Base 64 string is " + $('#base64placeholder').val());
+        })
+    </script>
+}
