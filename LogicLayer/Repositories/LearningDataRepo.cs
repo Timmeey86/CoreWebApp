@@ -95,6 +95,11 @@ namespace LogicLayer.Repositories
                 .Select(learningData => CreateLearningDataDto(learningData, imageDictionary[learningData.LearningDataId]));
         }
 
+        public IEnumerable<int> RetrieveAllIds()
+        {
+            return _dataAccessFactory.CreateLearningDataAccess(_configuration).GetAllIds().OrderBy(x => x);
+        }
+
         public void Update(LearningDataDto learningData)
         {
             if(learningData == null || learningData.ImageData == null)

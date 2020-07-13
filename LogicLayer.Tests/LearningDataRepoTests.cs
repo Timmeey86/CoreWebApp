@@ -61,12 +61,32 @@ namespace LogicLayer.Tests
             var expectedLearningDataDtos = LearningDataRepoTestData.AllLearningDataDtos;
             Assert.NotNull(actualLearningDataDtos);
             Assert.Equal(expectedLearningDataDtos.Count(), actualLearningDataDtos.Count());
-            for(var index = 0; index < expectedLearningDataDtos.Count(); index++)
+            for (var index = 0; index < expectedLearningDataDtos.Count(); index++)
             {
                 var expectedObject = JsonConvert.SerializeObject(expectedLearningDataDtos.ElementAt(index));
                 var actualObject = JsonConvert.SerializeObject(actualLearningDataDtos.ElementAt(index));
                 Assert.Equal(expectedObject, actualObject);
             }
+            VerifyMocks();
+        }
+
+        [Fact]
+        public void RetrieveAllIds_ShouldReturnAscendingIds_WhenValidDataArePresent()
+        {
+            // Arrange
+            var expectedIds = new List<int>()
+            {
+                1337, 42, 911
+            };
+            var sortedExpectedIds = new List<int>(expectedIds);
+            sortedExpectedIds.Sort();
+            LearningDataAccessMock.Setup(x => x.GetAllIds()).Returns(expectedIds);
+
+            // Act
+            var actualIds = Sut.RetrieveAllIds();
+
+            // Assert
+            Assert.Equal(sortedExpectedIds, actualIds);
             VerifyMocks();
         }
 

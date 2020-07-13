@@ -29,6 +29,8 @@ namespace CoreWebApp
             services.AddSingleton<IDataAccessFactory, DataAccessFactory>();
 
             services.AddSwaggerGen();
+            services.AddSession();
+            services.AddMemoryCache();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -50,6 +52,8 @@ namespace CoreWebApp
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseSession();
+            app.UseStaticFiles();
 
             app.UseEndpoints(endpoints =>
             {

@@ -2,6 +2,7 @@
 using DataLayer.Models;
 using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DataLayer.DataAccess
 {
@@ -65,6 +66,13 @@ namespace DataLayer.DataAccess
                 WHERE  {ColumnNames.PrimaryKey} = @LearningDataId";
 
             return DataAccessHelper.ExecuteWithinConnection((connection) => connection.Execute(updateQuery), _configuration) == 1;
+        }
+
+        public IEnumerable<int> GetAllIds()
+        {
+            var idQuery = $@"SELECT {ColumnNames.PrimaryKey} FROM {TableName}";
+
+            return DataAccessHelper.ExecuteWithinConnection((connection) => connection.Query<int>(idQuery).ToList(), _configuration);
         }
     }
 }
