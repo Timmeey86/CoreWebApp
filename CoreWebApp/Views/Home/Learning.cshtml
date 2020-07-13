@@ -56,13 +56,3 @@
         </li>
     </ul>
 </div>
-
-
-
-
-
-<p>Remaining: @String.Join(",", Model.State.RemainingIds.Select(x => x.ToString()))</p>
-<p>Correct: @String.Join(",", Model.State.CorrectIds.Select(x => x.ToString()))</p>
-<p>Current: @Model.State.Current?.Id</p>
-<p>Previous was right: @(Model.State.PreviousWasRight ? "Yes" : "No")</p>
-<p>Victory: @(Model.State.RemainingIds.Count == 0 ? "Yes" : "No")</p>
