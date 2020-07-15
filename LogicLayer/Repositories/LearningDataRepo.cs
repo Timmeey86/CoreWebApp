@@ -1,5 +1,5 @@
-﻿using CoreWebApp.LogicLayer.Dtos;
-using CoreWebApp.LogicLayer.Storage;
+﻿using LogicLayer.Dtos;
+using LogicLayer.Storage;
 using DataLayer.Models;
 using LogicLayer.DataBridge;
 using Microsoft.Extensions.Configuration;
@@ -40,7 +40,8 @@ namespace LogicLayer.Repositories
             {
                 Name = learningData.Name,
                 Description = learningData.Description,
-                Number = learningData.Number
+                Number = learningData.Number,
+                CategoryId = learningData.CategoryId
             };
             return _dataAccessFactory.CreateLearningDataAccess(_configuration).AddLearningData(learningDataForDb);
         }
@@ -120,7 +121,8 @@ namespace LogicLayer.Repositories
                 LearningDataId = learningData.Id,
                 Name = learningData.Name,
                 Description = learningData.Description,
-                Number = learningData.Number
+                Number = learningData.Number,
+                CategoryId = learningData.CategoryId
             };
             _dataAccessFactory.CreateLearningDataAccess(_configuration).UpdateLearningData(learningDataForDb);
         }
@@ -134,8 +136,20 @@ namespace LogicLayer.Repositories
                 Description = learningData.Description,
                 Number = learningData.Number,
                 ImageTitle = imageData.Title,
-                ImageData = Convert.ToBase64String(imageData.Data)
+                ImageData = Convert.ToBase64String(imageData.Data),
+                CategoryId = learningData.CategoryId
             };
+        }
+
+        public IEnumerable<CategoryDto> RetrieveAllCategoryData()
+        {
+            return
+                _dataAccessFactory.CreateCategoryDataAccess(_configuration).GetCategoryData()
+                .Select(categoryData => new CategoryDto()
+                {
+                    CategoryId = categoryData.CategoryId,
+                    CategoryName = categoryData.CategoryName
+                });
         }
     }
 }

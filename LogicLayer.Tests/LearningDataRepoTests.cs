@@ -1,4 +1,4 @@
-using CoreWebApp.LogicLayer.Dtos;
+using LogicLayer.Dtos;
 using DataLayer.Models;
 using Moq;
 using Newtonsoft.Json;
@@ -122,7 +122,8 @@ namespace LogicLayer.Tests
                 LearningDataId = expectedPrimaryKey,
                 Name = LearningDataRepoTestData.DummyLearningData1.Name,
                 Description = LearningDataRepoTestData.DummyLearningData1.Description,
-                Number = LearningDataRepoTestData.DummyLearningData1.Number
+                Number = LearningDataRepoTestData.DummyLearningData1.Number,
+                CategoryId = LearningDataRepoTestData.DummyLearningData1.CategoryId
             };
 
             ImageDataAccessMock.Setup(x => x.AddImageData(It.IsAny<ImageData>())).Returns(true);
@@ -160,7 +161,8 @@ namespace LogicLayer.Tests
                 Name = "No Image Data",
                 Description = "This shouldn't be saved",
                 Number = 0,
-                ImageData = null
+                ImageData = null,
+                CategoryId = 0
             }));
 
             Assert.Equal(expectedParamName, ex1.ParamName);
@@ -179,14 +181,16 @@ namespace LogicLayer.Tests
                 Description = "New description",
                 Number = 911,
                 ImageData = "QUJD",
-                ImageTitle = "New Title"
+                ImageTitle = "New Title",
+                CategoryId = 42
             };
             var expectedLearningData = new LearningData()
             {
                 LearningDataId = updatedDataDto.Id,
                 Name = updatedDataDto.Name,
                 Description = updatedDataDto.Description,
-                Number = updatedDataDto.Number
+                Number = updatedDataDto.Number,
+                CategoryId = updatedDataDto.CategoryId
             };
             var expectedImageData = new ImageData()
             {
@@ -228,7 +232,8 @@ namespace LogicLayer.Tests
                 Name = "No Image Data",
                 Description = "This shouldn't be saved",
                 Number = 0,
-                ImageData = null
+                ImageData = null,
+                CategoryId = 0
             }));
 
             Assert.Equal(expectedParamName, ex1.ParamName);

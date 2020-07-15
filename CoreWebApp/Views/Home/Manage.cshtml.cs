@@ -1,7 +1,8 @@
-using CoreWebApp.LogicLayer.Dtos;
-using CoreWebApp.LogicLayer.Storage;
+using LogicLayer.Dtos;
+using LogicLayer.Storage;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.Collections.Generic;
 
 namespace CoreWebApp.Views
 {
@@ -9,12 +10,19 @@ namespace CoreWebApp.Views
     {
         [BindProperty]
         public LearningDataDto LearningData { get; set; }
+        public IEnumerable<CategoryDto> Categories { get; set; }
 
         private readonly ILearningDataRepo _learningDataRepo;
 
         public ManageModel(ILearningDataRepo learningDataRepo)
         {
             _learningDataRepo = learningDataRepo;
+        }
+
+        public IActionResult OnGet()
+        {
+            Categories = _learningDataRepo.RetrieveAllCategoryData();
+            return Page();
         }
 
         public IActionResult OnPost()
@@ -27,7 +35,7 @@ namespace CoreWebApp.Views
 
             // Learning Data should be complete at this point
             _learningDataRepo.Add(LearningData);
-            return Page();
+            return OnGet();
         }
     }
 }

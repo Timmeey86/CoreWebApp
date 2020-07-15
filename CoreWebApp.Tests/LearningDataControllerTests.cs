@@ -1,5 +1,5 @@
-using CoreWebApp.LogicLayer.Dtos;
-using CoreWebApp.LogicLayer.Storage;
+using LogicLayer.Dtos;
+using LogicLayer.Storage;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

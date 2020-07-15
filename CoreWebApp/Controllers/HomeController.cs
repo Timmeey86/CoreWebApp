@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using CoreWebApp.LogicLayer.Dtos;
+using LogicLayer.Dtos;
 
 namespace CoreWebApp.Controllers
 {

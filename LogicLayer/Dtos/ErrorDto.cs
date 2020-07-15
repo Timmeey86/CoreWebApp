@@ -1,6 +1,6 @@
 using System;
 
-namespace CoreWebApp.LogicLayer.Dtos
+namespace LogicLayer.Dtos
 {
     /// <summary>
     /// This class defines data presented to the API user for errors.

@@ -5,7 +5,7 @@
 }
 
 <div class="text-center">
-    <h1 class="display-4">Woop Woop</h1>
+    <h1 class="display-4">Hinzufügen von Artikeln</h1>
 </div>
 
 <form method="post">
@@ -25,6 +25,22 @@
         <input type="text" class="form-control" id="description" asp-for="LearningData.Description">
         <span asp-validation-for="LearningData.Description" class="text-danger"></span>
     </div>
+    <div class="form-group dropdown">
+        <button type="button" class="btn dropdown-toggle" data-toggle="dropdown">
+            Category
+        </button>
+        <div class="dropdown-menu">
+            @foreach (var category in Model.Categories)
+            {
+                @Html.Raw("<a class=\"dropdown-item\" href=\"#\" onclick=\"$(categoryidplaceholder).val(" + category.CategoryId + ").end();\">" + category.CategoryName + "</a>");
+            }
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="categoryidplaceholder">Category:</label>
+        <input type="text" class="form-control" id="categoryidplaceholder" asp-for="LearningData.CategoryId" />
+        <span asp-validation-for="LearningData.CategoryId" class="text-danger"></span>
+    </div>
     <div class="form-group">
         <div class="custom-file mb-3">
             <label class="custom-file-label" id="customFileLabel" for="customFile">Choose file</label>
@@ -32,7 +48,7 @@
         </div>
     </div>
     <div class="form-group">
-        <input type="text" id ="base64placeholder" value="" asp-for="LearningData.ImageData" />
+        <input type="text" id="base64placeholder" value="" asp-for="LearningData.ImageData" />
         <span asp-validation-for="LearningData.ImageData" class="text-danger"></span>
     </div>
     <div class="form-group">

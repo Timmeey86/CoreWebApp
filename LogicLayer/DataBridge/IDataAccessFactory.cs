@@ -7,5 +7,6 @@ namespace LogicLayer.DataBridge
     {
         IImageDataAccess CreateImageDataAccess(IConfiguration configuration);
         ILearningDataAccess CreateLearningDataAccess(IConfiguration configuration);
+        ICategoryDataAccess CreateCategoryDataAccess(IConfiguration configuration);
     }
 }

@@ -18,6 +18,7 @@ namespace DataLayer.DataAccess
             public const string Name = "Name";
             public const string Description = "Description";
             public const string Number = "Number";
+            public const string CategoryId = "CategoryId";
         }
 
         public LearningDataAccess(IConfiguration configuration)
@@ -28,9 +29,9 @@ namespace DataLayer.DataAccess
         public int AddLearningData(LearningData learningData)
         {
             var insertAndSelectIdQuery = $@"
-                INSERT INTO {TableName} ({ColumnNames.Name}, {ColumnNames.Description}, {ColumnNames.Number})
+                INSERT INTO {TableName} ({ColumnNames.Name}, {ColumnNames.Description}, {ColumnNames.Number}, {ColumnNames.CategoryId})
                 OUTPUT INSERTED.{ColumnNames.PrimaryKey}
-                VALUES (@Name, @Description, @Number);";
+                VALUES (@Name, @Description, @Number, @CategoryId);";
 
             return DataAccessHelper.ExecuteWithinConnection(
                 (connection) => connection.QuerySingle<int>(insertAndSelectIdQuery, learningData),
@@ -62,7 +63,8 @@ namespace DataLayer.DataAccess
                 UPDATE {TableName}
                 SET    {ColumnNames.Name} = @Name,
                        {ColumnNames.Description} = @Description,
-                       {ColumnNames.Number} = @Number
+                       {ColumnNames.Number} = @Number,
+                       {ColumnNames.CategoryId} = @CategoryId,
                 WHERE  {ColumnNames.PrimaryKey} = @LearningDataId";
 
             return DataAccessHelper.ExecuteWithinConnection((connection) => connection.Execute(updateQuery), _configuration) == 1;

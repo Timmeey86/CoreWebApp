@@ -1,4 +1,4 @@
-﻿using CoreWebApp.LogicLayer.Storage;
+﻿using LogicLayer.Storage;
 using DataLayer.DataAccess;
 using DataLayer.Models;
 using LogicLayer.DataBridge;
@@ -44,7 +44,7 @@ namespace LogicLayer.Tests
 
         protected static bool CompareLearningData(LearningData data, LearningData reference)
         {
-            return data.Name == reference.Name && data.Description == reference.Description && data.Number == reference.Number;
+            return data.Name == reference.Name && data.Description == reference.Description && data.Number == reference.Number && data.CategoryId == reference.CategoryId;
         }
     }
 }

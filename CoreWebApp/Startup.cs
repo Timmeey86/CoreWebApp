@@ -1,4 +1,4 @@
-using CoreWebApp.LogicLayer.Storage;
+using LogicLayer.Storage;
 using LogicLayer.DataBridge;
 using LogicLayer.Repositories;
 using Microsoft.AspNetCore.Builder;

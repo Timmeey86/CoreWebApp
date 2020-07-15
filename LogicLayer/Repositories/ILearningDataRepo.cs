@@ -1,7 +1,8 @@
-﻿using CoreWebApp.LogicLayer.Dtos;
+﻿using LogicLayer.Dtos;
+using DataLayer.Models;
 using System.Collections.Generic;
 
-namespace CoreWebApp.LogicLayer.Storage
+namespace LogicLayer.Storage
 {
     /// <summary>
     /// Implementers of this interface are responsible for storing and providing LearningDataDto objects.
@@ -16,6 +17,7 @@ namespace CoreWebApp.LogicLayer.Storage
         LearningDataDto Retrieve(int id);
         IEnumerable<LearningDataDto> RetrieveAll();
         IEnumerable<int> RetrieveAllIds();
+        IEnumerable<CategoryDto> RetrieveAllCategoryData();
         void Update(LearningDataDto learningData);
         int Add(LearningDataDto learningData);
         void Remove(int learningDataId);

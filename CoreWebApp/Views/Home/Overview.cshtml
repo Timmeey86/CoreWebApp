@@ -3,29 +3,28 @@
 @{
 }
 
-
+@foreach (var category in Model.CategoryEntries)
+{
 <table class="table table-striped">
-    <thead>
+    <thead class="thead-light">
         <tr>
-            <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().Id)</th>
+            <th colspan="4" class="text-center">@category.CategoryName</th>
+        </tr>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().ImageData)</th>
             <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().Number)</th>
             <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().Name)</th>
-            <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().Description)</th>
-            <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().ImageTitle)</th>
-            <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().ImageData)</th>
         </tr>
     </thead>
     <tbody>
-    @foreach(var entry in Model.LearningDataEntries)
+    @foreach (var entry in Model.LearningDataEntries.Where(x => x.CategoryId == category.CategoryId).OrderBy(x => x.Number))
     {
         <tr>
-            <td>@Html.DisplayFor(model => entry.Id)</td>
+            <td><img src="data:image/png;base64,@Html.DisplayFor(model => entry.ImageData)" width="75" height="50" /></td>
             <td>@Html.DisplayFor(model => entry.Number)</td>
             <td>@Html.DisplayFor(model => entry.Name)</td>
-            <td>@Html.DisplayFor(model => entry.Description)</td>
-            <td>@Html.DisplayFor(model => entry.ImageTitle)</td>
-            <td><img src="data:image/png;base64,@Html.DisplayFor(model => entry.ImageData)" /></td>
         </tr>
     }
     </tbody>
 </table>
+}

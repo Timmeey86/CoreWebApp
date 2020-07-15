@@ -5,6 +5,11 @@ namespace LogicLayer.DataBridge
 {
     public class DataAccessFactory : IDataAccessFactory
     {
+        public ICategoryDataAccess CreateCategoryDataAccess(IConfiguration configuration)
+        {
+            return new CategoryDataAccess(configuration);
+        }
+
         public IImageDataAccess CreateImageDataAccess(IConfiguration configuration)
         {
             return new ImageDataAccess(configuration);

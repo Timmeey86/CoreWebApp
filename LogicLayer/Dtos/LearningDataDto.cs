@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace CoreWebApp.LogicLayer.Dtos
+namespace LogicLayer.Dtos
 {
     /// <summary>
     /// This class provides data to the API user for Learning Data.
@@ -21,5 +21,7 @@ namespace CoreWebApp.LogicLayer.Dtos
         public string ImageTitle { get; set; }
         [Required]
         public string ImageData { get; set; }
+        [Required]
+        public int CategoryId { get; set; }
     }
 }

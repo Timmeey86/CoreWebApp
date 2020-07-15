@@ -1,5 +1,5 @@
-﻿using CoreWebApp.LogicLayer.Dtos;
-using CoreWebApp.LogicLayer.Storage;
+﻿using LogicLayer.Dtos;
+using LogicLayer.Storage;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
