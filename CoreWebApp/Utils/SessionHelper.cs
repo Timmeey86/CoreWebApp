@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace CoreWebApp.Utils
 {
@@ -17,7 +13,7 @@ namespace CoreWebApp.Utils
         public static T GetObjectFromJson<T>(this ISession session, string key)
         {
             var value = session.GetString(key);
-            return value == null ? default(T) : JsonConvert.DeserializeObject<T>(value);
+            return value == null ? default : JsonConvert.DeserializeObject<T>(value);
         }
         
         public static bool HasKey(this ISession session, string key)

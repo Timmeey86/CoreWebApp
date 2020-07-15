@@ -6,21 +6,22 @@
 @foreach (var category in Model.CategoryEntries)
 {
 <table class="table table-striped">
+    <caption>List of all category entries</caption>
     <thead class="thead-light">
         <tr>
-            <th colspan="4" class="text-center">@category.CategoryName</th>
+            <th scope="row" colspan="4" class="text-center">@category.CategoryName</th>
         </tr>
         <tr>
-            <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().ImageData)</th>
-            <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().Number)</th>
-            <th>@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().Name)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().ImageData)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().Number)</th>
+            <th scope="col">@Html.DisplayNameFor(model => model.LearningDataEntries.FirstOrDefault().Name)</th>
         </tr>
     </thead>
     <tbody>
     @foreach (var entry in Model.LearningDataEntries.Where(x => x.CategoryId == category.CategoryId).OrderBy(x => x.Number))
     {
         <tr>
-            <td><img src="data:image/png;base64,@Html.DisplayFor(model => entry.ImageData)" width="75" height="50" /></td>
+            <td><img src="data:image/png;base64,@Html.DisplayFor(model => entry.ImageData)" alt="Image for @Html.DisplayFor(model => entry.Name)" width="75" height="50" /></td>
             <td>@Html.DisplayFor(model => entry.Number)</td>
             <td>@Html.DisplayFor(model => entry.Name)</td>
         </tr>

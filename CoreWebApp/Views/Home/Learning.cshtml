@@ -18,7 +18,7 @@
         <li class="list-group-item">
             <div class="row">
                 <div class="col-sm-auto">
-                    <img src="data:image/png;base64,@Html.DisplayFor(model => model.State.Current.ImageData)" />
+                    <img alt="@Html.DisplayFor(model => model.State.Current.Name)" src="data:image/png;base64,@Html.DisplayFor(model => model.State.Current.ImageData)" />
                 </div>
                 <div class="col-sm-auto">
                     <h2>@Html.DisplayFor(model => model.State.Current.Name)</h2>
