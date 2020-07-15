@@ -91,7 +91,8 @@ namespace CoreWebApp.Views.Home
                     }
                     else
                     {
-                        State.Current = null;
+                        // For now, reset to initial state
+                        State = null;
                     }
                 }
             }
