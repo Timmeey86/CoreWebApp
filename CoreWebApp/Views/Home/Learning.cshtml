@@ -4,13 +4,31 @@
 }
 
 <div class="container-fluid">
+    <form name="categoryForm" id="categoryForm" method="POST">
+        <div class="form-group">
+            <input type="hidden" class="text-center form-control-lg mb-2" id="categoryType" value="@Model.CategoryId" asp-for="CategoryId">
+            <div class="btn-group">
+                <button class="btn dropdown-toggle" data-toggle="dropdown">
+                    <span id="selectedCategory">Kategorie</span>
+                    <span class="caret"></span>
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" onclick="$('#categoryType').val(-1); $('#categoryForm').submit()">Alle</a>
+                    @foreach (var categoryEntry in Model.Categories)
+                    {
+                        <a class="dropdown-item" onclick="$('#categoryType').val('@categoryEntry.CategoryId'); $('#categoryForm').submit()">@categoryEntry.CategoryName</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </form>
     <ul class="list-group">
         @{
             if (Model.State.PreviousWasRight)
             {
                 @Html.Raw("<li class=\"list-group-item list-group-item-success\">Das war richtig!</li>");
             }
-            else if(!Model.State.IsFirst)
+            else if (!Model.State.IsFirst)
             {
                 @Html.Raw("<li class=\"list-group-item list-group-item-warning\">Das war leider falsch! Richtig wäre " + Model.State.Current.Number + ".</li>");
             }
@@ -56,3 +74,11 @@
         </li>
     </ul>
 </div>
+
+@section Scripts{
+    <script>
+        $('.dropdown-menu a').click(function () {
+            $('selectedCategory').text($(this).text());
+        });
+    </script>
+}

@@ -70,9 +70,13 @@ namespace DataLayer.DataAccess
             return DataAccessHelper.ExecuteWithinConnection((connection) => connection.Execute(updateQuery), _configuration) == 1;
         }
 
-        public IEnumerable<int> GetAllIds()
+        public IEnumerable<int> GetAllIds(int? categoryId)
         {
             var idQuery = $@"SELECT {ColumnNames.PrimaryKey} FROM {TableName}";
+            if(categoryId.HasValue)
+            {
+                idQuery += $" WHERE {ColumnNames.CategoryId} = {categoryId.Value}";
+            }
 
             return DataAccessHelper.ExecuteWithinConnection((connection) => connection.Query<int>(idQuery).ToList(), _configuration);
         }

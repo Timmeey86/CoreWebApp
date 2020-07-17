@@ -80,10 +80,10 @@ namespace LogicLayer.Tests
             };
             var sortedExpectedIds = new List<int>(expectedIds);
             sortedExpectedIds.Sort();
-            LearningDataAccessMock.Setup(x => x.GetAllIds()).Returns(expectedIds);
+            LearningDataAccessMock.Setup(x => x.GetAllIds(null)).Returns(expectedIds);
 
             // Act
-            var actualIds = Sut.RetrieveAllIds();
+            var actualIds = Sut.RetrieveAllIds(null);
 
             // Assert
             Assert.Equal(sortedExpectedIds, actualIds);

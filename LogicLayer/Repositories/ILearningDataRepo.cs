@@ -15,7 +15,7 @@ namespace LogicLayer.Storage
         /// <returns>The requested object.</returns>
         LearningDataDto Retrieve(int id);
         IEnumerable<LearningDataDto> RetrieveAll();
-        IEnumerable<int> RetrieveAllIds();
+        IEnumerable<int> RetrieveAllIds(int? categoryId);
         IEnumerable<CategoryDto> RetrieveAllCategoryData();
         void Update(LearningDataDto learningData);
         int Add(LearningDataDto learningData);

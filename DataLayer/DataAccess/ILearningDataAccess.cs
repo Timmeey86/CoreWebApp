@@ -10,6 +10,6 @@ namespace DataLayer.DataAccess
         int AddLearningData(LearningData learningData);
         bool UpdateLearningData(LearningData learningData);
         bool RemoveLearningData(int learningDataId);
-        IEnumerable<int> GetAllIds();
+        IEnumerable<int> GetAllIds(int? categoryId);
     }
 }

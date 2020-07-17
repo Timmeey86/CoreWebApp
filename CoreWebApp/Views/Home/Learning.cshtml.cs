@@ -7,6 +7,7 @@ using CoreWebApp.Utils;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json.Serialization;
 
 namespace CoreWebApp.Views.Home
 {
@@ -22,6 +23,7 @@ namespace CoreWebApp.Views.Home
 
             public bool PreviousWasRight { get; set; }
             public bool IsFirst { get; set; }
+            public int? PreviousCategoryId { get; set; }
         }
 
         [BindProperty]
@@ -30,24 +32,41 @@ namespace CoreWebApp.Views.Home
         [BindProperty]
         public string Code { get; set; }
 
+        [BindProperty]
+        public int CategoryId { get; set; }
+
+        public IEnumerable<CategoryDto> Categories { get; set; }
+
         private readonly ILearningDataRepo _learningDataRepo;
 
         public LearningModel(ILearningDataRepo learningDataRepo)
         {
             _learningDataRepo = learningDataRepo;
+            CategoryId = -1;
+            Categories = learningDataRepo.RetrieveAllCategoryData();
         }
 
         public IActionResult OnGet()
         {
             State = HttpContext.Session.GetObjectFromJson<SessionState>(SessionStateKey);
-            if(State == null)
+            if(State == null || State.PreviousCategoryId != Convert.ToInt32(CategoryId))
             {
+                int? category;
+                if(CategoryId < 0 )
+                {
+                    category = null;
+                }
+                else
+                {
+                    category = CategoryId;
+                }
                 State = new SessionState()
                 {
-                    RemainingIds = _learningDataRepo.RetrieveAllIds().ToList(),
+                    RemainingIds = _learningDataRepo.RetrieveAllIds(category).ToList(),
                     CorrectIds = new HashSet<int>(),
                     PreviousWasRight = false,
-                    IsFirst = true
+                    IsFirst = true,
+                    PreviousCategoryId = CategoryId
                 };
                 State.Current = GetRandomDto();
             }

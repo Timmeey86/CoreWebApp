@@ -96,9 +96,9 @@ namespace LogicLayer.Repositories
                 .Select(learningData => CreateLearningDataDto(learningData, imageDictionary[learningData.LearningDataId]));
         }
 
-        public IEnumerable<int> RetrieveAllIds()
+        public IEnumerable<int> RetrieveAllIds(int? categoryId)
         {
-            return _dataAccessFactory.CreateLearningDataAccess(_configuration).GetAllIds().OrderBy(x => x);
+            return _dataAccessFactory.CreateLearningDataAccess(_configuration).GetAllIds(categoryId).OrderBy(x => x);
         }
 
         public void Update(LearningDataDto learningData)
